@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<!--
+    =====================================================
+    高階 HTML 示範頁面
+    主題：吳Sir的尼泊爾遠足遊記 — 第四天：南崎巴扎
+    學習重點：HTML5 多媒體、無障礙設計(ARIA)、SEO、
+             Canvas、data-* 屬性、圖片優化
+    注意：此頁面「沒有」使用任何 CSS 或 JavaScript
+    =====================================================
+-->
+<html lang="zh-Hant">
+<head>
+    <!-- ===== SEO 相關 Meta 標籤 ===== -->
+    <meta charset="UTF-8">
+    <!-- viewport：確保在手機上正確顯示 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Open Graph 標籤：控制分享到社交媒體時的顯示內容 -->
+    <meta property="og:title" content="吳Sir的尼泊爾遠足遊記">
+    <meta property="og:description" content="香港中學 ICT 教學：高階 HTML5 示範">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Bodnath_stupa.jpg/640px-Bodnath_stupa.jpg">
+
+    <!-- Twitter Card 標籤 -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="吳Sir的尼泊爾遠足遊記">
+
+    <!-- 主題顏色（Chrome 手機版地址欄顏色） -->
+    <meta name="theme-color" content="#2c5f2e">
+
+    <!-- Robots：告訴搜尋引擎如何索引此頁 -->
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="吳Sir">
+    <meta name="keywords" content="尼泊爾,EBC,聖母峰,遠足,HTML教學">
+
+    <title>高階 HTML5 — 第四天：南崎巴扎</title>
+
+    <!--
+        preload：預先載入重要資源，加快頁面速度
+        （進階 SEO / 效能技巧）
+    -->
+    <!-- <link rel="preload" href="style.css" as="style"> -->
+</head>
+<body>
+
+    <p><a href="index.html">← 返回主頁</a></p>
+
+    <!-- ==========================================
+         1. 使用 role 和 aria-* 屬性（無障礙設計）
+         ========================================== -->
+    <!--
+        ARIA（Accessible Rich Internet Applications）
+        幫助螢幕閱讀器理解頁面結構，讓視障人士也能使用網站。
+        良好的無障礙設計也有助 SEO！
+    -->
+
+    <!-- role="banner" 標示這是網站的主標題區 -->
+    <header role="banner">
+        <!-- aria-label 提供螢幕閱讀器可讀的描述 -->
+        <nav role="navigation" aria-label="主要導航">
+            <ul>
+                <li><a href="index.html">主頁</a></li>
+                <li><a href="html-basic.html">基礎 HTML</a></li>
+                <li><a href="html-intermediate.html">進階 HTML</a></li>
+                <li><a href="html-advanced.html" aria-current="page">高階 HTML（本頁）</a></li>
+            </ul>
+        </nav>
+        <h1>🏔️ 吳Sir的尼泊爾遠足遊記</h1>
+        <p>高階 HTML5 示範 — 第四天：南崎巴扎</p>
+    </header>
+
+    <!-- role="main" 標示主要內容區 -->
+    <main role="main">
+
+        <h2>第四天：抵達南崎巴扎（Namche Bazaar）</h2>
+
+        <!-- ==========================================
+             2. <picture> 和 <source> — 響應式圖片
+             ========================================== -->
+        <section aria-labelledby="section-picture">
+            <h3 id="section-picture">📸 響應式圖片 &lt;picture&gt;</h3>
+            <p>
+                <code>&lt;picture&gt;</code> 標籤讓你提供多個圖片來源，
+                瀏覽器會根據螢幕大小、解析度選擇最適合的圖片。
+            </p>
+
+            <!-- <picture> 讓不同裝置載入不同大小的圖片，節省流量 -->
+            <picture>
+                <!-- media 屬性：螢幕超過 600px 時使用此圖 -->
+                <source media="(min-width: 600px)"
+                        srcset="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Mount_Everest_as_seen_from_Drukair2_PLW_edit.jpg/800px-Mount_Everest_as_seen_from_Drukair2_PLW_edit.jpg">
+
+                <!-- 預設圖片（小螢幕或不支援 picture 的瀏覽器） -->
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Mount_Everest_as_seen_from_Drukair2_PLW_edit.jpg/400px-Mount_Everest_as_seen_from_Drukair2_PLW_edit.jpg"
+                     alt="從飛機上俯瞰的聖母峰全景，白雪覆蓋的山峰在雲海之上"
+                     width="500"
+                     loading="lazy">
+                <!--
+                    loading="lazy"：
+                    圖片延遲載入，只有當圖片出現在視野內才載入，
+                    可以加快網頁初始載入速度！
+                -->
+            </picture>
+
+            <p><small>示範 srcset 屬性（提供不同解析度的同一圖片）：</small></p>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Bodnath_stupa.jpg/300px-Bodnath_stupa.jpg"
+                 srcset="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Bodnath_stupa.jpg/300px-Bodnath_stupa.jpg 300w,
+                         https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Bodnath_stupa.jpg/640px-Bodnath_stupa.jpg 640w"
+                 sizes="(max-width: 600px) 300px, 640px"
+                 alt="加德滿都的博達納特佛塔"
+                 width="400"
+                 loading="lazy">
+        </section>
+
+        <hr>
+
+        <!-- ==========================================
+             3. 影片 <video> 和音訊 <audio>
+             ========================================== -->
+        <section aria-labelledby="section-media">
+            <h3 id="section-media">🎬 HTML5 多媒體標籤</h3>
+
+            <!-- <video> 標籤嵌入影片 -->
+            <h4>影片示範：</h4>
+            <video width="400"
+                   controls
+                   preload="metadata"
+                   poster="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Bodnath_stupa.jpg/400px-Bodnath_stupa.jpg">
+                <!--
+                    controls：顯示播放、暫停、音量控制
+                    preload="metadata"：只預載影片資訊（不下載全部）
+                    poster：影片未播放時顯示的預覽圖
+                -->
+
+                <!-- 提供多種格式，瀏覽器自動選用支援的格式 -->
+                <source src="nepal-trek.mp4" type="video/mp4">
+                <source src="nepal-trek.webm" type="video/webm">
+
+                <!-- 字幕軌道 -->
+                <!-- <track src="subtitles-zh.vtt" kind="subtitles" srclang="zh" label="繁體中文"> -->
+
+                <!-- 不支援 video 標籤時顯示的後備內容 -->
+                <p>你的瀏覽器不支援 HTML5 影片標籤。
+                   <a href="nepal-trek.mp4">點擊下載影片</a></p>
+            </video>
+
+            <!-- <audio> 標籤嵌入音訊 -->
+            <h4>音訊示範：</h4>
+            <audio controls preload="none">
+                <!--
+                    preload="none"：不預先載入（節省流量）
+                    loop：循環播放
+                    muted：靜音
+                    autoplay：自動播放（大多數瀏覽器已禁止自動播放帶聲音的內容）
+                -->
+                <source src="nepal-music.mp3" type="audio/mpeg">
+                <source src="nepal-music.ogg" type="audio/ogg">
+                <p>你的瀏覽器不支援 HTML5 音訊標籤。</p>
+            </audio>
+        </section>
+
+        <hr>
+
+        <!-- ==========================================
+             4. Canvas 畫布（HTML 結構只需一個標籤）
+             ========================================== -->
+        <section aria-labelledby="section-canvas">
+            <h3 id="section-canvas">🎨 HTML5 Canvas 畫布</h3>
+            <p>
+                <code>&lt;canvas&gt;</code> 標籤提供一個畫布，
+                需要用 JavaScript 繪製內容（見「高階 HTML+CSS+JS」頁面）。
+                在這裡只示範 HTML 標籤的寫法。
+            </p>
+
+            <!--
+                canvas 只是一個空白畫布，
+                所有圖形都要用 JavaScript 的 Canvas API 繪製。
+                width 和 height 屬性設定畫布尺寸（像素）
+            -->
+            <canvas id="demo-canvas"
+                    width="400"
+                    height="150"
+                    role="img"
+                    aria-label="示範 Canvas 畫布：顯示山峰示意圖">
+                <!-- 不支援 Canvas 時顯示的後備內容 -->
+                你的瀏覽器不支援 HTML5 Canvas 畫布。
+            </canvas>
+
+            <!-- 用簡單的內聯 script 示範 Canvas（注意：高階 HTML 頁面通常不用 JS，
+                 這裡例外地用一個最簡單的示範，幫助學生看到效果） -->
+            <script>
+                // 這個 script 只在此處作為「最小化示範」
+                // 完整的 JavaScript 教學請看 html-css-js-advanced.html
+                const c = document.getElementById('demo-canvas');
+                const ctx = c.getContext('2d');
+                // 畫天空背景
+                ctx.fillStyle = '#87CEEB';
+                ctx.fillRect(0, 0, 400, 150);
+                // 畫山峰（灰色）
+                ctx.fillStyle = '#888';
+                ctx.beginPath();
+                ctx.moveTo(0, 150); ctx.lineTo(80, 60); ctx.lineTo(160, 150);
+                ctx.fill();
+                ctx.fillStyle = '#999';
+                ctx.beginPath();
+                ctx.moveTo(100, 150); ctx.lineTo(200, 30); ctx.lineTo(300, 150);
+                ctx.fill();
+                ctx.fillStyle = '#aaa';
+                ctx.beginPath();
+                ctx.moveTo(220, 150); ctx.lineTo(320, 70); ctx.lineTo(400, 150);
+                ctx.fill();
+                // 畫白色雪頂
+                ctx.fillStyle = 'white';
+                ctx.beginPath();
+                ctx.moveTo(185, 50); ctx.lineTo(200, 30); ctx.lineTo(215, 50);
+                ctx.fill();
+                // 文字
+                ctx.fillStyle = '#333';
+                ctx.font = '14px sans-serif';
+                ctx.fillText('Canvas 示範：尼泊爾山峰', 10, 140);
+            </script>
+        </section>
+
+        <hr>
+
+        <!-- ==========================================
+             5. data-* 自定義屬性
+             ========================================== -->
+        <section aria-labelledby="section-data">
+            <h3 id="section-data">🏷️ data-* 自定義屬性</h3>
+            <p>
+                <code>data-*</code> 屬性讓你在 HTML 元素上儲存自定義資料，
+                可以用 JavaScript 讀取（<code>element.dataset</code>）。
+                按 F12 查看這些元素的屬性！
+            </p>
+
+            <!-- 每個列表項都帶有自定義資料 -->
+            <ul>
+                <li data-altitude="2860"
+                    data-day="2"
+                    data-difficulty="easy">
+                    盧卡拉 — 海拔 2860m，第 2 天，難度：輕鬆
+                </li>
+                <li data-altitude="3440"
+                    data-day="4"
+                    data-difficulty="medium">
+                    南崎巴扎 — 海拔 3440m，第 4 天，難度：中等
+                </li>
+                <li data-altitude="3860"
+                    data-day="7"
+                    data-difficulty="medium">
+                    騰波齊 — 海拔 3860m，第 7 天，難度：中等
+                </li>
+                <li data-altitude="5364"
+                    data-day="12"
+                    data-difficulty="hard">
+                    聖母峰基地營 — 海拔 5364m，第 12 天，難度：困難
+                </li>
+            </ul>
+
+            <p>
+                <em>提示：按 F12 → Elements，選取任何一個 &lt;li&gt; 元素，
+                在右側 Styles 面板可以看到 data-* 屬性！</em>
+            </p>
+        </section>
+
+        <hr>
+
+        <!-- ==========================================
+             6. iframe 嵌入外部內容
+             ========================================== -->
+        <section aria-labelledby="section-iframe">
+            <h3 id="section-iframe">🗺️ iframe 嵌入外部內容</h3>
+            <p>
+                <code>&lt;iframe&gt;</code> 可以在頁面中嵌入另一個網頁，
+                常用於嵌入 Google Maps、YouTube 影片等。
+            </p>
+
+            <!-- 嵌入 Google Maps（OpenStreetMap 作示範，不需要 API Key） -->
+            <iframe
+                src="https://www.openstreetmap.org/export/embed.html?bbox=86.5,27.8,87.2,28.1&amp;layer=mapnik&amp;marker=27.9878,86.9250"
+                width="500"
+                height="300"
+                title="尼泊爾聖母峰地區地圖"
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                sandbox="allow-scripts allow-same-origin">
+                <!--
+                    title：無障礙用途，描述 iframe 內容
+                    loading="lazy"：延遲載入
+                    sandbox：限制 iframe 的權限（安全設定）
+                    referrerpolicy：控制傳送的 Referer 資訊
+                -->
+            </iframe>
+            <p><small>地圖顯示：聖母峰（珠穆朗瑪峰）所在的尼泊爾地區</small></p>
+        </section>
+
+        <hr>
+
+        <!-- ==========================================
+             7. 無障礙設計（Accessibility）進階示範
+             ========================================== -->
+        <section aria-labelledby="section-a11y">
+            <h3 id="section-a11y">♿ 無障礙設計 (Accessibility)</h3>
+
+            <!-- 跳過導航的連結（方便鍵盤用戶）-->
+            <!-- 通常放在頁面最頂部 -->
+            <a href="#main-content">跳過導航，直接到主要內容</a>
+
+            <!-- aria-label：給螢幕閱讀器提供說明 -->
+            <button type="button" aria-label="展開南崎巴扎詳細資料">
+                📍 南崎巴扎資料
+            </button>
+
+            <!-- aria-expanded：表示可展開元素的當前狀態 -->
+            <button type="button" aria-expanded="false" aria-controls="bazaar-details">
+                查看詳細 ▼
+            </button>
+            <div id="bazaar-details" hidden>
+                <p>南崎巴扎是前往聖母峰基地營的主要補給站，有商店、餐廳、旅社。</p>
+            </div>
+
+            <!-- aria-live：即時更新的內容（如通知、計時器） -->
+            <div aria-live="polite" aria-atomic="true" id="live-region">
+                <!-- 螢幕閱讀器會朗讀這裡更新的內容 -->
+                目前第 4 天，已完成行程 23.5%
+            </div>
+
+            <!-- role="alert"：重要警告訊息 -->
+            <p role="alert">
+                ⚠️ 高山警告：高度超過 3000 米時，每天上升高度不應超過 300–500 米！
+            </p>
+
+            <!-- tabindex：控制鍵盤 Tab 鍵的焦點順序 -->
+            <p tabindex="0">這段文字可以用 Tab 鍵聚焦（tabindex="0"）</p>
+
+            <!-- 圖示按鈕必須加上 aria-label -->
+            <button type="button" aria-label="讚好此篇遊記">👍</button>
+            <button type="button" aria-label="分享此篇遊記">🔗</button>
+        </section>
+
+        <hr>
+
+        <!-- 學習總結 -->
+        <section id="main-content" aria-labelledby="section-summary">
+            <h2 id="section-summary">📚 本頁學習要點總結</h2>
+            <ol>
+                <li>SEO Meta 標籤：<code>description, og:*, twitter:card</code></li>
+                <li><code>&lt;picture&gt;&lt;source&gt;</code>：響應式圖片</li>
+                <li><code>loading="lazy"</code>：圖片延遲載入</li>
+                <li><code>srcset sizes</code>：不同解析度圖片</li>
+                <li><code>&lt;video&gt;&lt;audio&gt;</code>：HTML5 多媒體</li>
+                <li><code>&lt;canvas&gt;</code>：HTML5 畫布（需配合 JavaScript）</li>
+                <li><code>data-*</code>：自定義 HTML 屬性</li>
+                <li><code>&lt;iframe sandbox&gt;</code>：嵌入外部內容（含安全設定）</li>
+                <li>ARIA：<code>role, aria-label, aria-labelledby, aria-live, aria-expanded</code></li>
+                <li><code>tabindex</code>：鍵盤無障礙導航</li>
+            </ol>
+        </section>
+
+    </main>
+
+    <footer role="contentinfo">
+        <hr>
+        <p>← <a href="html-intermediate.html">上一頁：進階 HTML</a> | <a href="index.html">返回主頁</a> | <a href="html-css-basic.html">下一頁：基礎 HTML+CSS</a> →</p>
+        <p>&copy; 2024 吳Sir的尼泊爾遠足遊記 — 香港中學資訊科技科教學用途</p>
+    </footer>
+
+</body>
+</html>

@@ -1,15 +1,322 @@
-body {
-    background-color: #f0f8ff;
-    font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+/* =====================================================
+   吳Sir的尼泊爾遠足遊記 — 主要樣式表 (style.css)
+   這個檔案提供主頁及共用元素的樣式。
+   按 F12 開啟開發者工具，在「Elements」或「Styles」面板查看！
+   ===================================================== */
+
+/* === CSS 自定義屬性（變數）=== */
+/* 使用 var(--變數名) 就可以在任何地方引用這些顏色 */
+:root {
+    --color-primary:    #2c5f2e;   /* 山林深綠 */
+    --color-secondary:  #97bc62;   /* 嫩葉淺綠 */
+    --color-accent:     #e8a838;   /* 陽光金黃 */
+    --color-snow:       #f0ede8;   /* 雪山米白 */
+    --color-dark:       #1a1a2e;   /* 深夜藍黑 */
+    --color-html:       #e34c26;   /* HTML 橙色 */
+    --color-css:        #264de4;   /* CSS 藍色 */
+    --color-js:         #c9a800;   /* JS 深黃色 */
+    --font-main:        'Microsoft JhengHei', 'PingFang TC', 'Noto Sans TC', sans-serif;
+    --font-code:        'Consolas', 'Courier New', monospace;
+    --shadow-sm:        0 2px 6px rgba(0,0,0,0.10);
+    --shadow-md:        0 4px 14px rgba(0,0,0,0.15);
+    --shadow-lg:        0 8px 28px rgba(0,0,0,0.20);
+    --radius:           10px;
+    --transition:       all 0.3s ease;
 }
-.container {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+
+/* === CSS 重置與基礎 === */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-main);
+    background-color: var(--color-snow);
+    color: var(--color-dark);
+    line-height: 1.7;
+    min-height: 100vh;
+}
+
+/* === 主頁標題列 === */
+.site-header {
+    background: linear-gradient(135deg, var(--color-primary) 0%, #1a3c1b 50%, #0d2b0e 100%);
+    color: white;
     text-align: center;
+    padding: 60px 20px 50px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* 雪山裝飾背景 */
+.site-header::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 60px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 60'%3E%3Cpolygon points='0,60 100,10 200,40 350,5 500,35 650,0 800,30 950,8 1100,35 1200,15 1200,60' fill='%23f0ede8'/%3E%3C/svg%3E") no-repeat bottom center / cover;
+}
+
+.site-header h1 {
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.4);
+}
+
+.site-header .subtitle {
+    font-size: 1.1rem;
+    opacity: 0.88;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* === 主容器 === */
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+/* === 介紹區塊 === */
+.intro {
+    background: white;
+    border-left: 5px solid var(--color-accent);
+    border-radius: var(--radius);
+    padding: 28px 32px;
+    margin-bottom: 48px;
+    box-shadow: var(--shadow-sm);
+}
+
+.intro h2 {
+    color: var(--color-primary);
+    margin-bottom: 10px;
+    font-size: 1.4rem;
+}
+
+.intro p {
+    margin-top: 8px;
+    color: #444;
+}
+
+kbd {
+    background: #eee;
+    border: 1px solid #bbb;
+    border-radius: 4px;
+    padding: 2px 7px;
+    font-family: var(--font-code);
+    font-size: 0.9em;
+    box-shadow: inset 0 -2px 0 #bbb;
+}
+
+/* === 課程區段標題 === */
+.courses h2 {
+    font-size: 1.6rem;
+    color: var(--color-primary);
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.level-section {
+    margin-bottom: 44px;
+}
+
+.level-section h3 {
+    font-size: 1.25rem;
+    color: #444;
+    margin-bottom: 18px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+/* === 卡片網格 === */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+/* === 導航卡片 === */
+.card {
+    display: block;
+    background: white;
+    border-radius: var(--radius);
+    padding: 24px 22px;
+    text-decoration: none;
+    color: var(--color-dark);
+    box-shadow: var(--shadow-sm);
+    border-top: 4px solid transparent;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+}
+
+.card-html  { border-top-color: var(--color-html); }
+.card-css   { border-top-color: var(--color-css);  }
+.card-js    { border-top-color: var(--color-js);   }
+
+.card:hover.card-html { background: #fff5f2; }
+.card:hover.card-css  { background: #f2f4ff; }
+.card:hover.card-js   { background: #fffbe6; }
+
+.card-icon {
+    font-size: 2.2rem;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.card h4 {
+    font-size: 1.05rem;
+    margin-bottom: 6px;
+    color: var(--color-dark);
+}
+
+.card p {
+    font-size: 0.88rem;
+    color: #666;
+    margin-bottom: 14px;
+}
+
+/* === 難度徽章 === */
+.badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: bold;
+}
+
+.badge-beginner    { background: #d4edda; color: #155724; }
+.badge-intermediate{ background: #fff3cd; color: #856404; }
+.badge-advanced    { background: #f8d7da; color: #721c24; }
+
+/* === 行程時間軸 === */
+.journey {
+    background: white;
+    border-radius: var(--radius);
+    padding: 32px;
+    margin-top: 48px;
+    box-shadow: var(--shadow-sm);
+}
+
+.journey h2 {
+    font-size: 1.4rem;
+    color: var(--color-primary);
+    margin-bottom: 24px;
+}
+
+.timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: relative;
+    padding-left: 30px;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 8px; top: 8px; bottom: 8px;
+    width: 3px;
+    background: linear-gradient(to bottom, var(--color-secondary), var(--color-primary));
+    border-radius: 3px;
+}
+
+.timeline-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 0;
+    position: relative;
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -26px;
+    width: 12px; height: 12px;
+    background: var(--color-accent);
+    border-radius: 50%;
+    border: 2px solid white;
+    box-shadow: 0 0 0 2px var(--color-accent);
+}
+
+.timeline-item .day {
+    background: var(--color-primary);
+    color: white;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    white-space: nowrap;
+    min-width: 55px;
+    text-align: center;
+}
+
+.timeline-item .location {
+    font-weight: bold;
+    color: var(--color-primary);
+    min-width: 200px;
+}
+
+.timeline-item .desc {
+    color: #555;
+    font-size: 0.93rem;
+}
+
+/* === 頁腳 === */
+.site-footer {
+    background: var(--color-dark);
+    color: #ccc;
+    text-align: center;
+    padding: 30px 20px;
+    margin-top: 60px;
+    font-size: 0.9rem;
+    line-height: 2;
+}
+
+.site-footer kbd {
+    background: #444;
+    border-color: #666;
+    color: #eee;
+}
+
+/* === 各頁面共用的「返回主頁」按鈕 === */
+.back-btn {
+    display: inline-block;
+    background: var(--color-primary);
+    color: white;
+    padding: 10px 22px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-size: 0.95rem;
+    margin: 20px 0;
+    transition: var(--transition);
+}
+
+.back-btn:hover {
+    background: var(--color-secondary);
+    color: var(--color-dark);
+}
+
+/* === 響應式設計 === */
+@media (max-width: 640px) {
+    .timeline-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+
+    .timeline-item .location {
+        min-width: unset;
+    }
+
+    .card-grid {
+        grid-template-columns: 1fr;
+    }
 }

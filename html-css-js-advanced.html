@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<!--
+    =====================================================
+    高階 HTML + CSS + JavaScript 示範頁面
+    主題：吳Sir的尼泊爾遠足遊記 — 第十六至十七天：返回加德滿都
+    學習重點：ES6+（箭頭函數、解構、展開、模板字串）、
+             async/await、Fetch API、Canvas 繪圖、
+             ES6 Class、計時器、Promise
+    =====================================================
+-->
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>高階 HTML+CSS+JS — 第十六至十七天：完成旅程</title>
+    <style>
+        :root {
+            --green: #2c5f2e; --light: #97bc62; --gold: #e8a838;
+            --dark: #1a1a2e; --snow: #f0ede8; --red: #e34c26;
+            --blue: #264de4; --purple: #6f42c1;
+            --radius: 10px; --trans: all 0.3s ease;
+            --shadow: 0 4px 14px rgba(0,0,0,0.12);
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Microsoft JhengHei', 'PingFang TC', sans-serif; background: var(--snow); color: var(--dark); line-height: 1.7; }
+        .page-header { background: linear-gradient(135deg, var(--dark), var(--purple), var(--green)); color: white; text-align: center; padding: 50px 20px; }
+        .page-header h1 { font-size: clamp(1.5rem, 3vw, 2.5rem); margin-bottom: 8px; }
+        .nav-bar { background: var(--dark); padding: 10px 20px; display: flex; gap: 20px; position: sticky; top: 0; z-index: 99; }
+        .nav-bar a { color: var(--light); text-decoration: none; font-size: 0.9rem; }
+        .nav-bar a:hover { color: var(--gold); }
+        .container { max-width: 960px; margin: 0 auto; padding: 30px 20px; }
+        h2 { color: var(--green); border-left: 5px solid var(--light); padding-left: 12px; margin: 32px 0 14px; font-size: 1.35rem; }
+        h3 { color: var(--dark); margin: 18px 0 10px; }
+        p  { margin-bottom: 14px; }
+        .demo-box { background: white; border: 2px solid #ddd; border-radius: var(--radius); padding: 20px; margin-bottom: 20px; }
+        .tip { background: #fff3cd; border-left: 4px solid var(--gold); padding: 12px 16px; border-radius: 4px; margin-bottom: 20px; }
+        .btn { background: var(--green); color: white; border: none; padding: 8px 18px; border-radius: 6px; cursor: pointer; font-size: 0.95rem; font-family: inherit; transition: var(--trans); margin: 4px 2px; }
+        .btn:hover { background: var(--light); color: var(--dark); }
+        .btn:disabled { background: #ccc; cursor: not-allowed; }
+        .btn-red  { background: var(--red); }
+        .btn-blue { background: var(--blue); }
+        .btn-gold { background: var(--gold); color: var(--dark); }
+        .btn-purple { background: var(--purple); }
+        .output { background: #e8f5e9; border: 2px solid var(--light); border-radius: 6px; padding: 12px 16px; min-height: 40px; margin-top: 10px; font-size: 0.92rem; }
+        code { background: #eee; padding: 1px 5px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 0.9em; }
+        pre.code-block { background: #1e1e3f; color: #c8d3f5; padding: 16px; border-radius: 8px; font-family: 'Consolas', monospace; font-size: 0.88rem; overflow-x: auto; line-height: 1.6; margin-bottom: 16px; }
+        pre.code-block .kw { color: #c586c0; }
+        pre.code-block .cm { color: #6a9955; }
+        pre.code-block .st { color: #ce9178; }
+        pre.code-block .fn { color: #dcdcaa; }
+        #canvas-demo { border: 2px solid var(--green); border-radius: 8px; display: block; max-width: 100%; }
+        .timer-display { font-size: 3rem; font-family: 'Consolas', monospace; text-align: center; color: var(--green); padding: 20px; letter-spacing: 4px; }
+        .promise-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 10px; }
+        .promise-item { padding: 8px 16px; border-radius: 6px; font-size: 0.9rem; transition: var(--trans); background: #eee; }
+        .promise-item.pending  { background: #fff3cd; color: #856404; }
+        .promise-item.resolved { background: #d4edda; color: #155724; }
+        .promise-item.rejected { background: #f8d7da; color: #721c24; }
+        #api-result { white-space: pre-wrap; font-family: 'Consolas', monospace; font-size: 0.85rem; max-height: 200px; overflow-y: auto; }
+        .class-demo { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; margin-bottom: 16px; }
+        .hiker-card { background: white; border: 2px solid #eee; border-radius: var(--radius); padding: 16px; box-shadow: var(--shadow); text-align: center; }
+        .hiker-card .avatar { font-size: 2.5rem; }
+        .hiker-card h4 { color: var(--green); margin: 8px 0 4px; }
+        .hiker-card p  { font-size: 0.82rem; color: #666; margin: 2px 0; }
+        .page-footer { background: var(--dark); color: #ccc; text-align: center; padding: 24px; margin-top: 40px; font-size: 0.88rem; line-height: 2; }
+        .page-footer a { color: var(--light); }
+    </style>
+</head>
+<body>
+
+<div class="page-header">
+    <h1>🏔️ 吳Sir的尼泊爾遠足遊記</h1>
+    <p>高階 HTML + CSS + JavaScript — 第十六至十七天：返回加德滿都，完成旅程！</p>
+</div>
+
+<nav class="nav-bar">
+    <a href="index.html">← 主頁</a>
+    <a href="html-css-js-intermediate.html">← 進階 JS</a>
+</nav>
+
+<div class="container">
+
+    <h2>第十六至十七天：返回加德滿都，完成夢想之旅！</h2>
+    <p>
+        吳Sir終於完成了整個行程，17天的尼泊爾遠足劃上圓滿的句號。
+        和高階 JavaScript 一樣——掌握了核心概念後，就能創建更強大的應用！
+    </p>
+    <div class="tip">
+        💡 按 F12 → Console，這一頁有大量互動示範，在 Console 會顯示詳細的執行資訊！
+    </div>
+
+    <!-- ===========================
+         1. ES6+ 語法
+         =========================== -->
+    <h2>⚡ 1. ES6+ 現代 JavaScript 語法</h2>
+
+    <div class="demo-box">
+        <h3>箭頭函數（Arrow Function）</h3>
+        <pre class="code-block"><span class="cm">// 傳統函數</span>
+<span class="kw">function</span> <span class="fn">add</span>(a, b) { <span class="kw">return</span> a + b; }
+
+<span class="cm">// 箭頭函數（等同上方）</span>
+<span class="kw">const</span> add = (a, b) => a + b;
+
+<span class="cm">// 單一參數可省略括號</span>
+<span class="kw">const</span> double = x => x * 2;
+
+<span class="cm">// 陣列方法常用箭頭函數</span>
+<span class="kw">const</span> altitudes = treks.<span class="fn">map</span>(t => t.altitude);
+<span class="kw">const</span> highTreks = treks.<span class="fn">filter</span>(t => t.altitude > 4000);</pre>
+
+        <h3>解構賦值（Destructuring）</h3>
+        <pre class="code-block"><span class="cm">// 物件解構</span>
+<span class="kw">const</span> trek = { name: <span class="st">'南崎巴扎'</span>, altitude: 3440, day: 4 };
+<span class="kw">const</span> { name, altitude, day } = trek;  <span class="cm">// 直接取出屬性</span>
+
+<span class="cm">// 陣列解構</span>
+<span class="kw">const</span> [first, second, ...rest] = [<span class="st">'加德滿都'</span>, <span class="st">'盧卡拉'</span>, <span class="st">'法克定'</span>, <span class="st">'南崎巴扎'</span>];
+<span class="cm">// first = '加德滿都', second = '盧卡拉', rest = ['法克定', '南崎巴扎']</span>
+
+<span class="cm">// 函數參數中解構</span>
+<span class="kw">const</span> showTrek = ({ name, altitude }) => `${name}（${altitude}m）`;</pre>
+
+        <h3>展開運算子（Spread / Rest）</h3>
+        <pre class="code-block"><span class="cm">// 展開陣列</span>
+<span class="kw">const</span> arr1 = [1, 2, 3];
+<span class="kw">const</span> arr2 = [...arr1, 4, 5];   <span class="cm">// [1, 2, 3, 4, 5]</span>
+
+<span class="cm">// 複製物件並修改屬性</span>
+<span class="kw">const</span> original = { name: <span class="st">'南崎巴扎'</span>, altitude: 3440 };
+<span class="kw">const</span> updated  = { ...original, altitude: 3500 };  <span class="cm">// 覆蓋 altitude</span>
+
+<span class="cm">// Rest 參數（收集剩餘參數）</span>
+<span class="kw">const</span> sum = (...nums) => nums.<span class="fn">reduce</span>((a, b) => a + b, 0);</pre>
+
+        <button class="btn" onclick="runES6Demo()">▶ 在 Console 執行示範</button>
+        <div class="output" id="es6-output">點擊按鈕查看執行結果</div>
+    </div>
+
+    <!-- ===========================
+         2. Promise 和 async/await
+         =========================== -->
+    <h2>⏳ 2. Promise 和 async/await（非同步程式）</h2>
+
+    <div class="demo-box">
+        <p>
+            JavaScript 是「單執行緒」的——一次只能做一件事。
+            <code>Promise</code> 和 <code>async/await</code> 讓我們處理需要等待的任務（如網絡請求），
+            而不會「凍結」整個程式。
+        </p>
+
+        <h3>Promise 狀態示範</h3>
+        <div class="promise-row" id="promise-states">
+            <div class="promise-item pending" id="p-state-1">📡 等待天氣資料...</div>
+            <div class="promise-item pending" id="p-state-2">📡 等待匯率資料...</div>
+            <div class="promise-item pending" id="p-state-3">📡 等待海拔資料...</div>
+        </div>
+        <button class="btn" onclick="runPromiseDemo()">▶ 模擬非同步請求</button>
+        <button class="btn btn-red" onclick="resetPromises()">🔄 重置</button>
+        <div class="output" id="promise-output">點擊「模擬非同步請求」觀察 Promise 的三種狀態</div>
+    </div>
+
+    <!-- ===========================
+         3. Fetch API
+         =========================== -->
+    <h2>🌐 3. Fetch API（網絡請求）</h2>
+
+    <div class="demo-box">
+        <p>
+            <code>fetch()</code> 用於向伺服器發送 HTTP 請求，返回一個 <code>Promise</code>。
+            以下示範從公開 API 取得資料（使用 async/await 語法）。
+        </p>
+
+        <button class="btn" id="fetch-btn" onclick="fetchData()">🌍 取得公開 API 資料（笑話 API）</button>
+        <button class="btn btn-blue" onclick="fetchJSON()">📊 取得 JSON Placeholder 示範</button>
+        <div class="output" id="api-result">點擊上方按鈕，發送 HTTP 請求⋯</div>
+    </div>
+
+    <!-- ===========================
+         4. ES6 Class
+         =========================== -->
+    <h2>🏗️ 4. ES6 Class（類別）</h2>
+
+    <div class="demo-box">
+        <pre class="code-block"><span class="kw">class</span> <span class="fn">Hiker</span> {
+  <span class="fn">constructor</span>(name, age, level) {
+    <span class="kw">this</span>.name  = name;
+    <span class="kw">this</span>.age   = age;
+    <span class="kw">this</span>.level = level;
+    <span class="kw">this</span>.totalDistance = 0;
+  }
+
+  <span class="fn">trek</span>(km) {
+    <span class="kw">this</span>.totalDistance += km;
+    <span class="kw">return</span> `${<span class="kw">this</span>.name} 步行了 ${km}km，累計 ${<span class="kw">this</span>.totalDistance}km`;
+  }
+
+  <span class="kw">get</span> <span class="fn">info</span>() {  <span class="cm">// Getter</span>
+    <span class="kw">return</span> `${<span class="kw">this</span>.name}（${<span class="kw">this</span>.age}歲，${<span class="kw">this</span>.level}）`;
+  }
+}
+
+<span class="cm">// 繼承（Inheritance）</span>
+<span class="kw">class</span> <span class="fn">GuideHiker</span> <span class="kw">extends</span> <span class="fn">Hiker</span> {
+  <span class="fn">constructor</span>(name, age, guideYears) {
+    <span class="kw">super</span>(name, age, <span class="st">'嚮導'</span>);    <span class="cm">// 呼叫父類別 constructor</span>
+    <span class="kw">this</span>.guideYears = guideYears;
+  }
+  <span class="fn">introduce</span>() {
+    <span class="kw">return</span> `我是嚮導 ${<span class="kw">this</span>.name}，有 ${<span class="kw">this</span>.guideYears} 年帶隊經驗`;
+  }
+}</pre>
+
+        <button class="btn" onclick="runClassDemo()">▶ 建立行山隊示範</button>
+        <div id="hiker-cards" class="class-demo"></div>
+        <div class="output" id="class-output">點擊按鈕建立行山隊</div>
+    </div>
+
+    <!-- ===========================
+         5. 計時器（setTimeout/setInterval）
+         =========================== -->
+    <h2>⏱️ 5. 計時器（setTimeout / setInterval）</h2>
+
+    <div class="demo-box">
+        <div class="timer-display" id="timer-display">00:00:00</div>
+        <div style="text-align:center; margin-bottom:10px; color:#666; font-size:0.88rem;" id="timer-label">行程計時器（模擬第12天攻頂用時）</div>
+        <div style="text-align:center;">
+            <button class="btn" id="timer-start" onclick="startTimer()">▶ 開始</button>
+            <button class="btn btn-red" id="timer-stop" onclick="stopTimer()" disabled>⏸ 暫停</button>
+            <button class="btn btn-gold" onclick="resetTimer()">⏹ 重置</button>
+        </div>
+        <div class="output" id="timer-output" style="margin-top:10px;"></div>
+    </div>
+
+    <!-- ===========================
+         6. Canvas API 繪圖
+         =========================== -->
+    <h2>🎨 6. Canvas API — 繪製尼泊爾山景</h2>
+
+    <div class="demo-box">
+        <canvas id="canvas-demo" width="700" height="350"></canvas>
+        <br>
+        <button class="btn" onclick="drawMountains()">🏔️ 繪製山景</button>
+        <button class="btn btn-blue" onclick="drawNight()">🌙 夜景模式</button>
+        <button class="btn btn-gold" onclick="clearCanvas()">🗑️ 清除畫布</button>
+        <div class="output" id="canvas-output" style="font-size:0.85rem;"></div>
+    </div>
+
+    <!-- 學習總結 -->
+    <h2>📚 本頁學習要點</h2>
+    <ol>
+        <li>ES6 箭頭函數：<code>(params) => expression</code></li>
+        <li>物件/陣列解構：<code>const { a, b } = obj</code>、<code>const [x, y] = arr</code></li>
+        <li>展開/其餘運算子：<code>...spread</code>、<code>...rest</code></li>
+        <li>模板字串：<code>`Hello ${name}!`</code></li>
+        <li>Promise：<code>new Promise((resolve, reject) => {})</code>、<code>.then().catch()</code></li>
+        <li>async/await：<code>async function f() { const data = await fetch(url); }</code></li>
+        <li>Fetch API：<code>fetch(url).then(r => r.json())</code></li>
+        <li>ES6 Class：<code>class Name { constructor() {} method() {} }</code></li>
+        <li>繼承：<code>class Child extends Parent { super(); }</code></li>
+        <li>計時器：<code>setTimeout(fn, ms)</code>、<code>setInterval(fn, ms)</code>、<code>clearInterval(id)</code></li>
+        <li>Canvas：<code>getContext('2d')</code>、<code>fillRect</code>、<code>beginPath</code>、<code>arc</code>、<code>lineTo</code></li>
+        <li>解構函數參數、Getter/Setter、靜態方法</li>
+    </ol>
+
+</div>
+
+<div class="page-footer">
+    <p>← <a href="html-css-js-intermediate.html">上一頁：進階 JS</a> | <a href="index.html">返回主頁</a></p>
+    <p>🎉 恭喜完成吳Sir的尼泊爾遠足遊記全部課程！</p>
+    <p>&copy; 2024 吳Sir的尼泊爾遠足遊記 — 香港中學資訊科技科教學用途</p>
+</div>
+
+<script>
+    /* ============================================
+       高階 JavaScript 示範
+       ============================================ */
+
+    // ===== 1. ES6+ 語法示範 =====
+    const treks = [
+        { name: '加德滿都', altitude: 1400, day: 1 },
+        { name: '盧卡拉',   altitude: 2860, day: 2 },
+        { name: '南崎巴扎', altitude: 3440, day: 4 },
+        { name: '騰波齊',   altitude: 3860, day: 7 },
+        { name: '基地營',   altitude: 5364, day: 12 },
+    ];
+
+    function runES6Demo() {
+        // 箭頭函數
+        const getAltitude = trek => trek.altitude;
+        const altitudes   = treks.map(getAltitude);
+
+        // 解構
+        const { name, altitude, day } = treks[2];
+        console.log(`解構第3個地點：名稱=${name}, 海拔=${altitude}m, 第${day}天`);
+
+        // 展開運算子
+        const kopied = [...treks];  // 複製陣列（不影響原始陣列）
+        const maxAlt = Math.max(...altitudes);
+
+        // 模板字串
+        const summary = `行程共 ${treks.length} 個地點，最高海拔 ${maxAlt}m`;
+
+        // 物件解構 + 展開
+        const baseInfo = { country: '尼泊爾', year: 2024 };
+        const fullInfo = { ...baseInfo, hiker: '吳Sir', goal: 'EBC' };
+
+        // 顯示結果
+        const output = document.getElementById('es6-output');
+        output.innerHTML = `
+            <strong>箭頭函數結果：</strong> 海拔陣列 = [${altitudes.join(', ')}]<br>
+            <strong>解構結果：</strong> ${name}（第${day}天，${altitude}m）<br>
+            <strong>展開結果：</strong> 最高海拔 = ${maxAlt}m<br>
+            <strong>模板字串：</strong> ${summary}<br>
+            <strong>物件展開：</strong> ${JSON.stringify(fullInfo)}
+        `;
+
+        console.log('=== ES6+ 示範 ===');
+        console.log('altitudes:', altitudes);
+        console.log('解構:', { name, altitude, day });
+        console.log('fullInfo:', fullInfo);
+        console.log('filter (>4000m):', treks.filter(t => t.altitude > 4000).map(t => t.name));
+    }
+
+    // ===== 2. Promise 示範 =====
+    function simulateRequest(label, delay, shouldFail = false) {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                if (shouldFail) {
+                    reject(new Error(`${label} 請求失敗`));
+                } else {
+                    resolve({ label, data: `${label}資料已取得`, time: new Date().toLocaleTimeString() });
+                }
+            }, delay);
+        });
+    }
+
+    async function runPromiseDemo() {
+        const output = document.getElementById('promise-output');
+        output.textContent = '正在發送請求...';
+        resetPromises();
+
+        document.querySelectorAll('.promise-item').forEach(el => el.className = 'promise-item pending');
+
+        try {
+            // Promise.all 等待所有 Promise 完成（並行）
+            const [weather, rate, elevation] = await Promise.allSettled([
+                simulateRequest('天氣', 1000),
+                simulateRequest('匯率', 1800, true),  // 這個會失敗
+                simulateRequest('海拔', 1300),
+            ]);
+
+            // allSettled 返回每個 Promise 的狀態（不會因失敗而中斷）
+            const items = [
+                { el: 'p-state-1', result: weather   },
+                { el: 'p-state-2', result: rate      },
+                { el: 'p-state-3', result: elevation },
+            ];
+
+            items.forEach(({ el, result }) => {
+                const domEl = document.getElementById(el);
+                if (result.status === 'fulfilled') {
+                    domEl.className = 'promise-item resolved';
+                    domEl.textContent = `✅ ${result.value.data}`;
+                } else {
+                    domEl.className = 'promise-item rejected';
+                    domEl.textContent = `❌ ${result.reason.message}`;
+                }
+            });
+
+            const success = items.filter(i => i.result.status === 'fulfilled').length;
+            output.textContent = `完成！${success}/${items.length} 個請求成功。（匯率請求故意設定為失敗示範）`;
+
+        } catch (err) {
+            output.textContent = `發生錯誤：${err.message}`;
+        }
+    }
+
+    function resetPromises() {
+        const labels = ['天氣資料', '匯率資料', '海拔資料'];
+        ['p-state-1', 'p-state-2', 'p-state-3'].forEach((id, i) => {
+            const el = document.getElementById(id);
+            el.className = 'promise-item pending';
+            el.textContent = `📡 等待${labels[i]}...`;
+        });
+    }
+
+    // ===== 3. Fetch API =====
+    async function fetchData() {
+        const btn    = document.getElementById('fetch-btn');
+        const output = document.getElementById('api-result');
+        btn.disabled = true;
+        output.textContent = '正在請求數據...';
+
+        try {
+            // fetch 返回 Promise
+            const response = await fetch('https://official-joke-api.appspot.com/random_joke');
+
+            // 檢查 HTTP 狀態
+            if (!response.ok) {
+                throw new Error(`HTTP 錯誤！狀態碼：${response.status}`);
+            }
+
+            // .json() 解析回應體，也返回 Promise
+            const joke = await response.json();
+
+            output.innerHTML = `
+                <strong>從 API 取得的笑話：</strong><br>
+                問：${joke.setup}<br>
+                答：${joke.punchline}<br>
+                <small style="color:#888;">類型：${joke.type} | ID：${joke.id}</small>
+            `;
+        } catch (err) {
+            output.innerHTML = `
+                <span style="color:#e34c26;">請求失敗：${err.message}</span><br>
+                <small>（可能是網絡問題或 CORS 限制，這是正常的教學示範）</small>
+            `;
+        } finally {
+            // finally 無論成功或失敗都會執行
+            btn.disabled = false;
+            console.log('Fetch 請求完成（finally）');
+        }
+    }
+
+    async function fetchJSON() {
+        const output = document.getElementById('api-result');
+        output.textContent = '正在請求 JSONPlaceholder 示範資料...';
+
+        try {
+            const response = await fetch('https://jsonplaceholder.typicode.com/posts/1');
+            const data = await response.json();
+
+            output.textContent = `API 回應：\n${JSON.stringify(data, null, 2)}`;
+        } catch (err) {
+            output.textContent = `請求失敗：${err.message}`;
+        }
+    }
+
+    // ===== 4. ES6 Class =====
+    class Hiker {
+        constructor(name, age, level) {
+            this.name  = name;
+            this.age   = age;
+            this.level = level;
+            this.totalDistance = 0;
+            this.emoji = { '初學': '🧑', '中級': '👨‍🦳', '嚮導': '👷' }[level] || '🧗';
+        }
+
+        trek(km) {
+            this.totalDistance += km;
+            return `${this.name} 步行了 ${km}km，累計 ${this.totalDistance}km`;
+        }
+
+        // Getter（像屬性一樣存取，但其實是函數）
+        get info() {
+            return `${this.name}（${this.age}歲，${this.level}）`;
+        }
+
+        // 靜態方法（直接用類別呼叫，不需要實例）
+        static compare(a, b) {
+            return b.totalDistance - a.totalDistance;
+        }
+    }
+
+    // 繼承
+    class GuideHiker extends Hiker {
+        constructor(name, age, guideYears) {
+            super(name, age, '嚮導');
+            this.guideYears = guideYears;
+            this.emoji = '🧭';
+        }
+        introduce() {
+            return `我是嚮導 ${this.name}，有 ${this.guideYears} 年帶隊經驗`;
+        }
+    }
+
+    function runClassDemo() {
+        const guide  = new GuideHiker('Pemba', 35, 15);
+        const hiker1 = new Hiker('吳Sir', 42, '中級');
+        const hiker2 = new Hiker('阿明', 18, '初學');
+
+        [guide, hiker1, hiker2].forEach(h => h.trek(Math.floor(Math.random() * 50 + 50)));
+
+        const hikers = [guide, hiker1, hiker2].sort(Hiker.compare);
+
+        const cardsEl = document.getElementById('hiker-cards');
+        cardsEl.innerHTML = hikers.map((h, i) => `
+            <div class="hiker-card">
+                <div class="avatar">${h.emoji}</div>
+                <h4>#${i+1} ${h.name}</h4>
+                <p>${h.level} | ${h.age}歲</p>
+                <p>累計：<strong>${h.totalDistance}km</strong></p>
+                ${h instanceof GuideHiker ? `<p style="color:var(--blue)">${h.introduce()}</p>` : ''}
+            </div>
+        `).join('');
+
+        document.getElementById('class-output').textContent =
+            `建立了 ${hikers.length} 個 Hiker 實例（instanceof GuideHiker：${guide instanceof Hiker} / ${guide instanceof GuideHiker}）`;
+
+        console.log('=== Class 示範 ===');
+        console.log('guide.info:', guide.info);
+        console.log('hiker1 instanceof Hiker:', hiker1 instanceof Hiker);
+        console.log('guide instanceof GuideHiker:', guide instanceof GuideHiker);
+    }
+
+    // ===== 5. 計時器 =====
+    let timerInterval = null;
+    let timerSeconds  = 0;
+
+    function formatTime(s) {
+        const h = Math.floor(s / 3600).toString().padStart(2, '0');
+        const m = Math.floor((s % 3600) / 60).toString().padStart(2, '0');
+        const sec = (s % 60).toString().padStart(2, '0');
+        return `${h}:${m}:${sec}`;
+    }
+
+    function startTimer() {
+        if (timerInterval) return;
+        document.getElementById('timer-start').disabled = true;
+        document.getElementById('timer-stop').disabled  = false;
+
+        // setInterval：每隔一定時間重複執行
+        timerInterval = setInterval(() => {
+            timerSeconds++;
+            document.getElementById('timer-display').textContent = formatTime(timerSeconds);
+
+            if (timerSeconds === 6 * 3600) {  // 6小時
+                document.getElementById('timer-output').textContent = '🎯 模擬到達基地營！（6小時攻頂時間）';
+                stopTimer();
+            }
+        }, 1000);  // 每 1000ms（1秒）執行一次
+
+        document.getElementById('timer-output').textContent = '計時中⋯（真實攻頂需要約6小時）';
+    }
+
+    function stopTimer() {
+        clearInterval(timerInterval);  // clearInterval 停止計時器
+        timerInterval = null;
+        document.getElementById('timer-start').disabled = false;
+        document.getElementById('timer-stop').disabled  = true;
+    }
+
+    function resetTimer() {
+        stopTimer();
+        timerSeconds = 0;
+        document.getElementById('timer-display').textContent = '00:00:00';
+        document.getElementById('timer-output').textContent = '';
+    }
+
+    // setTimeout 示範（只執行一次）
+    setTimeout(() => {
+        console.log('setTimeout：3秒後執行此訊息（只執行一次）');
+    }, 3000);
+
+    // ===== 6. Canvas API =====
+    const canvas = document.getElementById('canvas-demo');
+    const ctx    = canvas.getContext('2d');
+
+    function clearCanvas() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        document.getElementById('canvas-output').textContent = '畫布已清除';
+    }
+
+    function drawMountains() {
+        const W = canvas.width, H = canvas.height;
+        ctx.clearRect(0, 0, W, H);
+
+        // 1. 天空漸層
+        const sky = ctx.createLinearGradient(0, 0, 0, H * 0.6);
+        sky.addColorStop(0, '#1a3a6b');
+        sky.addColorStop(1, '#87CEEB');
+        ctx.fillStyle = sky;
+        ctx.fillRect(0, 0, W, H * 0.6);
+
+        // 2. 太陽
+        const sunGrad = ctx.createRadialGradient(W * 0.8, H * 0.12, 5, W * 0.8, H * 0.12, 40);
+        sunGrad.addColorStop(0, '#FFE57F');
+        sunGrad.addColorStop(1, 'rgba(255,229,127,0)');
+        ctx.fillStyle = sunGrad;
+        ctx.beginPath();
+        ctx.arc(W * 0.8, H * 0.12, 40, 0, Math.PI * 2);
+        ctx.fill();
+
+        // 3. 遠山（深藍）
+        ctx.fillStyle = '#2c3e8a';
+        ctx.beginPath();
+        ctx.moveTo(0, H * 0.6);
+        ctx.lineTo(100, H * 0.25); ctx.lineTo(200, H * 0.45);
+        ctx.lineTo(320, H * 0.15); ctx.lineTo(440, H * 0.38);
+        ctx.lineTo(560, H * 0.2); ctx.lineTo(680, H * 0.42);
+        ctx.lineTo(W, H * 0.3); ctx.lineTo(W, H * 0.6);
+        ctx.closePath();
+        ctx.fill();
+
+        // 4. 近山（深綠/灰）
+        ctx.fillStyle = '#2c5f2e';
+        ctx.beginPath();
+        ctx.moveTo(0, H);
+        ctx.lineTo(0, H * 0.55);
+        ctx.lineTo(80, H * 0.3); ctx.lineTo(180, H * 0.55);
+        ctx.lineTo(300, H * 0.22); ctx.lineTo(420, H * 0.5);
+        ctx.lineTo(550, H * 0.28); ctx.lineTo(660, H * 0.52);
+        ctx.lineTo(W, H * 0.4); ctx.lineTo(W, H);
+        ctx.closePath();
+        ctx.fill();
+
+        // 5. 聖母峰（主峰，白雪）
+        ctx.fillStyle = '#c8d8e8';
+        ctx.beginPath();
+        ctx.moveTo(280, H * 0.55); ctx.lineTo(320, H * 0.08); ctx.lineTo(360, H * 0.55);
+        ctx.closePath();
+        ctx.fill();
+
+        // 雪頂（純白）
+        ctx.fillStyle = 'white';
+        ctx.beginPath();
+        ctx.moveTo(306, H * 0.24); ctx.lineTo(320, H * 0.08); ctx.lineTo(334, H * 0.24);
+        ctx.closePath();
+        ctx.fill();
+
+        // 6. 地面（草地）
+        const ground = ctx.createLinearGradient(0, H * 0.65, 0, H);
+        ground.addColorStop(0, '#4a7c4e');
+        ground.addColorStop(1, '#2c5f2e');
+        ctx.fillStyle = ground;
+        ctx.fillRect(0, H * 0.65, W, H * 0.35);
+
+        // 7. 人物（吳Sir）
+        ctx.fillStyle = '#e34c26';  // 紅色衝鋒衣
+        ctx.beginPath();
+        ctx.arc(W * 0.45, H * 0.72, 8, 0, Math.PI * 2);  // 頭
+        ctx.fill();
+        ctx.fillStyle = '#e34c26';
+        ctx.fillRect(W * 0.43, H * 0.72, 14, 22);          // 身體
+        ctx.fillStyle = '#1a1a2e';
+        ctx.fillRect(W * 0.42, H * 0.82, 6, 14);            // 左腿
+        ctx.fillRect(W * 0.50, H * 0.82, 6, 14);            // 右腿
+
+        // 登山杖
+        ctx.strokeStyle = '#8B4513';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(W * 0.40, H * 0.74); ctx.lineTo(W * 0.37, H * 0.96);
+        ctx.moveTo(W * 0.58, H * 0.74); ctx.lineTo(W * 0.61, H * 0.96);
+        ctx.stroke();
+
+        // 8. 標籤文字
+        ctx.fillStyle = 'white';
+        ctx.font = 'bold 14px sans-serif';
+        ctx.fillText('🏔️ 聖母峰 8849m', 260, H * 0.06);
+        ctx.font = '11px sans-serif';
+        ctx.fillStyle = '#fff';
+        ctx.fillText('吳Sir', W * 0.43, H * 0.99);
+        ctx.fillText('基地營 5364m →', W * 0.5, H * 0.76);
+
+        document.getElementById('canvas-output').textContent =
+            '已繪製：天空漸層、太陽（radial gradient）、遠近山脈（Bezier path）、聖母峰雪頂、草地、人物。';
+    }
+
+    function drawNight() {
+        const W = canvas.width, H = canvas.height;
+        ctx.clearRect(0, 0, W, H);
+
+        // 深藍夜空
+        const nightSky = ctx.createLinearGradient(0, 0, 0, H * 0.6);
+        nightSky.addColorStop(0, '#010B20');
+        nightSky.addColorStop(1, '#0D1B2A');
+        ctx.fillStyle = nightSky;
+        ctx.fillRect(0, 0, W, H);
+
+        // 星星（隨機分佈）
+        ctx.fillStyle = 'white';
+        for (let i = 0; i < 120; i++) {
+            const x    = Math.random() * W;
+            const y    = Math.random() * H * 0.55;
+            const size = Math.random() * 2 + 0.5;
+            ctx.beginPath();
+            ctx.arc(x, y, size, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        // 月亮
+        ctx.fillStyle = '#FFF5C0';
+        ctx.beginPath();
+        ctx.arc(W * 0.15, H * 0.1, 28, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = '#0D1B2A';
+        ctx.beginPath();
+        ctx.arc(W * 0.19, H * 0.09, 24, 0, Math.PI * 2);
+        ctx.fill();
+
+        // 山脈（深藍/灰剪影）
+        ctx.fillStyle = '#0F2034';
+        ctx.beginPath();
+        ctx.moveTo(0, H);
+        ctx.lineTo(0, H * 0.55); ctx.lineTo(100, H * 0.28);
+        ctx.lineTo(200, H * 0.55); ctx.lineTo(310, H * 0.2);
+        ctx.lineTo(420, H * 0.5); ctx.lineTo(540, H * 0.25);
+        ctx.lineTo(660, H * 0.5); ctx.lineTo(W, H * 0.38); ctx.lineTo(W, H);
+        ctx.closePath();
+        ctx.fill();
+
+        // 帳篷（橙色光芒）
+        ctx.fillStyle = '#e8a838';
+        ctx.beginPath();
+        ctx.moveTo(W * 0.4, H * 0.7);
+        ctx.lineTo(W * 0.47, H * 0.58);
+        ctx.lineTo(W * 0.54, H * 0.7);
+        ctx.closePath();
+        ctx.fill();
+
+        // 帳篷光暈
+        const glow = ctx.createRadialGradient(W * 0.47, H * 0.65, 2, W * 0.47, H * 0.65, 40);
+        glow.addColorStop(0, 'rgba(232,168,56,0.4)');
+        glow.addColorStop(1, 'rgba(232,168,56,0)');
+        ctx.fillStyle = glow;
+        ctx.beginPath();
+        ctx.arc(W * 0.47, H * 0.65, 40, 0, Math.PI * 2);
+        ctx.fill();
+
+        // 文字
+        ctx.fillStyle = '#97bc62';
+        ctx.font = '13px sans-serif';
+        ctx.fillText('⛺ 基地營夜景 — 吳Sir在帳篷中記錄旅程', 10, H - 10);
+
+        document.getElementById('canvas-output').textContent =
+            '夜景模式：星星（隨機 arc）、月亮（兩個圓形製造缺月效果）、山脈剪影、帳篷和光暈（radial gradient）';
+    }
+
+    // 頁面載入後自動繪製
+    drawMountains();
+
+    // Console 說明
+    console.log('🚀 高階 JavaScript 示範頁面已載入！');
+    console.log('📌 可在 Console 使用的全域物件：');
+    console.log('  treks      — 行程資料陣列');
+    console.log('  Hiker      — 行山者 Class');
+    console.log('  GuideHiker — 嚮導 Class（繼承自 Hiker）');
+    console.log('');
+    console.log('試試：new Hiker("你的名字", 16, "初學").trek(5)');
+</script>
+
+</body>
+</html>

@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<!--
+    =====================================================
+    高階 HTML + CSS 示範頁面
+    主題：吳Sir的尼泊爾遠足遊記 — 第十二天：聖母峰基地營
+    學習重點：CSS 動畫(@keyframes)、媒體查詢(響應式設計)、
+             CSS 變數、2D/3D 轉換(transform)、CSS 濾鏡
+    =====================================================
+-->
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>高階 HTML+CSS — 第十二天：聖母峰基地營</title>
+    <style>
+
+        /* =====================================================
+           1. CSS 自定義屬性（變數）
+           ===================================================== */
+        /*
+            使用 -- 開頭定義變數，用 var() 引用。
+            定義在 :root 可以在整頁使用；也可以定義在特定元素上。
+        */
+        :root {
+            --primary:    #2c5f2e;
+            --secondary:  #97bc62;
+            --accent:     #e8a838;
+            --danger:     #e34c26;
+            --dark:       #1a1a2e;
+            --light:      #f0ede8;
+            --snow:       #ffffff;
+            --text:       #333;
+            --font:       'Microsoft JhengHei', 'PingFang TC', sans-serif;
+            --radius:     10px;
+            --shadow:     0 4px 16px rgba(0,0,0,0.15);
+            --transition: all 0.35s ease;
+            --header-height: 80px;
+        }
+
+        /* CSS 變數可以在局部覆蓋！ */
+        .dark-theme {
+            --primary: #97bc62;
+            --dark: #f0ede8;
+            --light: #1a1a2e;
+            background-color: var(--light);
+            color: var(--dark);
+        }
+
+        /* ===== 基礎 ===== */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: var(--font); background: var(--light); color: var(--text); line-height: 1.7; }
+
+        /* =====================================================
+           2. @keyframes CSS 動畫
+           ===================================================== */
+        /*
+            @keyframes 定義動畫的「關鍵幀」
+            from/to 或 0%/100% 指定動畫開始和結束的樣式
+            animation 屬性把動畫套用到元素上
+        */
+
+        /* 閃爍動畫 */
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50%       { opacity: 0.2; }
+        }
+
+        /* 左右搖擺 */
+        @keyframes sway {
+            0%, 100% { transform: rotate(-5deg); }
+            50%       { transform: rotate(5deg); }
+        }
+
+        /* 上下浮動 */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50%       { transform: translateY(-15px); }
+        }
+
+        /* 從左滑入 */
+        @keyframes slideInLeft {
+            from { transform: translateX(-100%); opacity: 0; }
+            to   { transform: translateX(0);     opacity: 1; }
+        }
+
+        /* 從下滑入 */
+        @keyframes slideInUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to   { transform: translateY(0);    opacity: 1; }
+        }
+
+        /* 脈衝放大縮小 */
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50%       { transform: scale(1.08); }
+        }
+
+        /* 顏色循環 */
+        @keyframes colorCycle {
+            0%   { background-color: var(--primary); }
+            33%  { background-color: var(--accent); }
+            66%  { background-color: var(--danger); }
+            100% { background-color: var(--primary); }
+        }
+
+        /* 旋轉 360 度 */
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to   { transform: rotate(360deg); }
+        }
+
+        /* 進度條填充 */
+        @keyframes fillBar {
+            from { width: 0%; }
+            to   { width: var(--target-width, 70%); }
+        }
+
+        /* ===== 頁首 ===== */
+        .page-header {
+            background: linear-gradient(135deg, var(--dark) 0%, var(--primary) 100%);
+            color: white;
+            text-align: center;
+            padding: 60px 20px 50px;
+            position: relative;
+            overflow: hidden;
+            /* 套用 slideInLeft 動畫 */
+            animation: slideInLeft 0.8s ease both;
+        }
+
+        /* 雪山波浪 */
+        .page-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 40px;
+            background: var(--light);
+            clip-path: polygon(0 100%, 5% 30%, 15% 80%, 25% 10%, 40% 60%, 55% 0%, 70% 50%, 82% 15%, 92% 55%, 100% 20%, 100% 100%);
+        }
+
+        .page-header h1 {
+            font-size: clamp(1.5rem, 4vw, 2.8rem);
+            margin-bottom: 10px;
+            /* 浮動動畫 */
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .nav-bar {
+            background: var(--dark);
+            padding: 10px 20px;
+            display: flex;
+            gap: 20px;
+            position: sticky;  /* 捲動時固定在頂部 */
+            top: 0;
+            z-index: 100;
+        }
+        .nav-bar a { color: var(--secondary); text-decoration: none; font-size: 0.9rem; }
+        .nav-bar a:hover { color: var(--accent); }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 30px 20px; }
+
+        h2 {
+            color: var(--primary);
+            border-bottom: 3px solid var(--secondary);
+            padding-bottom: 8px;
+            margin: 32px 0 16px;
+            animation: slideInUp 0.6s ease both;
+        }
+        h3 { color: var(--dark); margin: 20px 0 10px; }
+        p  { margin-bottom: 14px; }
+
+        .tip {
+            background: #fff3cd;
+            border-left: 4px solid var(--accent);
+            padding: 12px 16px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+
+        /* =====================================================
+           3. 動畫示範區
+           ===================================================== */
+
+        .anim-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .anim-box {
+            background: var(--primary);
+            color: white;
+            padding: 24px 12px;
+            border-radius: var(--radius);
+            text-align: center;
+            font-size: 0.85rem;
+        }
+
+        .anim-blink   { animation: blink 1.5s ease-in-out infinite; }
+        .anim-sway    { animation: sway 1.5s ease-in-out infinite; display: inline-block; }
+        .anim-float   { animation: float 2.5s ease-in-out infinite; }
+        .anim-pulse   { animation: pulse 1.5s ease-in-out infinite; }
+        .anim-spin    { animation: spin 3s linear infinite; display: inline-block; font-size: 2rem; }
+        .anim-color   {
+            animation: colorCycle 4s ease-in-out infinite;
+            padding: 20px;
+            border-radius: var(--radius);
+            text-align: center;
+            color: white;
+        }
+
+        /* animation-fill-mode: both — 動畫結束後保持最終狀態 */
+        .slide-demo {
+            animation: slideInUp 1s ease 0.5s both;
+            /* 0.5s 是 animation-delay（延遲） */
+            background: var(--secondary);
+            padding: 16px;
+            border-radius: var(--radius);
+            margin-bottom: 16px;
+        }
+
+        /* 進度條動畫 */
+        .progress-container {
+            background: #ddd;
+            border-radius: 20px;
+            overflow: hidden;
+            height: 24px;
+            margin-bottom: 12px;
+        }
+        .progress-bar {
+            height: 100%;
+            border-radius: 20px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            padding-left: 10px;
+            font-size: 0.8rem;
+            color: white;
+            font-weight: bold;
+            animation: fillBar 2s ease-out 0.5s both;
+        }
+        .pb-70 { --target-width: 70%; }
+        .pb-85 { --target-width: 85%; background: linear-gradient(90deg, var(--accent), #c0392b); }
+        .pb-100 { --target-width: 100%; background: linear-gradient(90deg, #264de4, #97bc62); }
+
+
+        /* =====================================================
+           4. CSS Transform（2D 和 3D 轉換）
+           ===================================================== */
+
+        .transform-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .transform-box {
+            background: var(--secondary);
+            color: var(--dark);
+            padding: 20px 10px;
+            border-radius: var(--radius);
+            text-align: center;
+            font-size: 0.82rem;
+            transition: var(--transition);
+        }
+
+        /* 2D 轉換 */
+        .tx-translate:hover { transform: translate(10px, -10px); }
+        .tx-rotate:hover    { transform: rotate(15deg); }
+        .tx-scale:hover     { transform: scale(1.2); }
+        .tx-skew:hover      { transform: skewX(15deg); }
+        .tx-multi:hover     { transform: translate(5px, -5px) rotate(10deg) scale(1.1); }
+
+        /* 3D 轉換（需要設定 perspective）*/
+        .perspective-container {
+            perspective: 800px;   /* 視點距離，越小效果越強烈 */
+        }
+
+        .tx-rotateX:hover { transform: rotateX(30deg); }
+        .tx-rotateY:hover { transform: rotateY(30deg); }
+        .tx-rotateZ:hover { transform: rotateZ(30deg); }
+
+        /* 翻轉卡片 */
+        .flip-card {
+            width: 180px;
+            height: 120px;
+            perspective: 800px;
+            cursor: pointer;
+        }
+        .flip-card-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transition: transform 0.7s;
+            transform-style: preserve-3d;  /* 子元素在 3D 空間中 */
+        }
+        .flip-card:hover .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        .flip-front, .flip-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 12px;
+            backface-visibility: hidden;  /* 背面不可見 */
+        }
+        .flip-front {
+            background: var(--primary);
+            color: white;
+        }
+        .flip-back {
+            background: var(--accent);
+            color: var(--dark);
+            transform: rotateY(180deg);  /* 初始反轉，等待翻轉顯示 */
+        }
+
+
+        /* =====================================================
+           5. CSS 濾鏡（Filter）
+           ===================================================== */
+
+        .filter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        .filter-item {
+            text-align: center;
+            font-size: 0.8rem;
+        }
+        .filter-item img {
+            width: 100%;
+            border-radius: 6px;
+            display: block;
+            margin-bottom: 6px;
+        }
+        .f-none     { filter: none; }
+        .f-gray     { filter: grayscale(100%); }
+        .f-sepia    { filter: sepia(80%); }
+        .f-blur     { filter: blur(2px); }
+        .f-bright   { filter: brightness(1.5); }
+        .f-contrast { filter: contrast(2); }
+        .f-invert   { filter: invert(100%); }
+        .f-hue      { filter: hue-rotate(90deg); }
+        .f-saturate { filter: saturate(3); }
+        .f-shadow   { filter: drop-shadow(4px 4px 6px rgba(0,0,0,0.5)); }
+
+
+        /* =====================================================
+           6. 響應式設計（Media Queries）
+           ===================================================== */
+        /*
+            @media 規則讓你根據螢幕大小套用不同的 CSS。
+            常見斷點：
+            - 手機：< 600px
+            - 平板：600px – 1024px
+            - 桌面：> 1024px
+        */
+
+        .responsive-demo {
+            background: var(--primary);
+            color: white;
+            padding: 20px;
+            border-radius: var(--radius);
+            margin-bottom: 16px;
+            text-align: center;
+            font-size: 1.2rem;
+        }
+
+        /* 平板（螢幕寬度 ≤ 1024px）*/
+        @media (max-width: 1024px) {
+            .responsive-demo {
+                background: var(--accent);
+                color: var(--dark);
+            }
+        }
+
+        /* 手機（螢幕寬度 ≤ 600px）*/
+        @media (max-width: 600px) {
+            .responsive-demo {
+                background: var(--danger);
+                color: white;
+                font-size: 1rem;
+            }
+
+            .anim-grid { grid-template-columns: 1fr 1fr; }
+            .transform-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        /* 橫向屏幕 */
+        @media (orientation: landscape) and (max-height: 500px) {
+            .page-header { padding: 20px; }
+        }
+
+        /* 高解析度螢幕（Retina）*/
+        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+            /* 可以在這裡提供 2x 圖片 */
+        }
+
+        /* 深色模式偏好 */
+        @media (prefers-color-scheme: dark) {
+            /* 如果用戶系統設定深色模式 */
+            body {
+                /* 示範，這裡不實際套用以免影響其他示範 */
+            }
+        }
+
+        /* ===== CSS 自定義屬性示範 ===== */
+        .var-demo-card {
+            background: white;
+            border: 2px solid var(--primary);
+            border-radius: var(--radius);
+            padding: 20px;
+            box-shadow: var(--shadow);
+            margin-bottom: 16px;
+            transition: var(--transition);
+        }
+        .var-demo-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-3px);
+        }
+
+        /* clip-path 裁剪形狀 */
+        .clip-demo {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+        }
+        .clip-box {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.8rem;
+            text-align: center;
+        }
+        .clip-circle  { clip-path: circle(50%); }
+        .clip-tri     { clip-path: polygon(50% 0%, 0% 100%, 100% 100%); }
+        .clip-pent    { clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%); }
+        .clip-rhombus { clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); }
+
+        /* ===== 頁腳 ===== */
+        .page-footer {
+            background: var(--dark);
+            color: #ccc;
+            text-align: center;
+            padding: 24px;
+            margin-top: 40px;
+            font-size: 0.88rem;
+            line-height: 2;
+        }
+        .page-footer a { color: var(--secondary); }
+
+        /* ===== 慶祝動畫（到達基地營！）===== */
+        @keyframes celebrate {
+            0%   { transform: scale(1) rotate(0deg); }
+            25%  { transform: scale(1.2) rotate(-5deg); }
+            50%  { transform: scale(1.3) rotate(5deg); }
+            75%  { transform: scale(1.2) rotate(-3deg); }
+            100% { transform: scale(1) rotate(0deg); }
+        }
+
+        .celebrate-banner {
+            background: linear-gradient(135deg, var(--accent), var(--danger));
+            color: white;
+            text-align: center;
+            padding: 30px;
+            border-radius: var(--radius);
+            font-size: 1.5rem;
+            font-weight: bold;
+            animation: celebrate 1s ease-in-out 3,
+                       float 3s ease-in-out 3s infinite;
+            margin-bottom: 24px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page-header">
+        <h1>🏔️ 吳Sir的尼泊爾遠足遊記</h1>
+        <p>高階 HTML + CSS — 第十二天：聖母峰基地營（5364m）</p>
+    </div>
+
+    <nav class="nav-bar" role="navigation">
+        <a href="index.html">← 主頁</a>
+        <a href="html-css-intermediate.html">← 進階 CSS</a>
+        <a href="html-css-js-basic.html">基礎 JS →</a>
+    </nav>
+
+    <div class="container">
+
+        <div class="celebrate-banner">
+            🎉 吳Sir 成功到達聖母峰基地營！海拔 5364 米！🎯
+        </div>
+
+        <p>
+            經過 12 天的努力，吳Sir終於站在聖母峰（珠穆朗瑪峰）的腳下！
+            空氣中的氧氣濃度只有海平面的一半，每走一步都需要消耗大量精力。
+            但這一刻的成就感，比任何東西都珍貴。
+        </p>
+
+        <div class="tip">
+            💡 留意頁面標題的「浮動動畫」（animation: float），還有慶祝橫幅的「慶祝動畫」！
+               按 F12 → Styles，可以看到 animation 屬性的設定。
+        </div>
+
+        <!-- ===== 1. CSS 變數 ===== -->
+        <h2>🎨 1. CSS 自定義屬性（CSS Variables）</h2>
+        <p>
+            在 <code>:root</code> 定義變數，在整個頁面引用。
+            修改一個變數，所有使用它的地方都會同步更新！
+        </p>
+        <div class="var-demo-card">
+            <p>這個卡片的邊框顏色用 <code>var(--primary)</code>，hover 時變為 <code>var(--accent)</code>。</p>
+            <p>陰影效果用 <code>var(--shadow)</code>，圓角用 <code>var(--radius)</code>，過渡用 <code>var(--transition)</code>。</p>
+            <p>只需修改 <code>:root</code> 中的變數，整個設計主題就會改變！（試試在 F12 修改 --primary 的值）</p>
+        </div>
+
+        <!-- ===== 2. CSS 動畫 ===== -->
+        <h2>🎬 2. @keyframes CSS 動畫</h2>
+        <p><code>@keyframes</code> 定義動畫序列，<code>animation</code> 套用到元素。</p>
+
+        <div class="anim-grid">
+            <div class="anim-box anim-blink">animation: blink<br>（閃爍）</div>
+            <div class="anim-box" style="background:none; color: var(--text);">
+                <span class="anim-sway" style="font-size:2rem;">🏔️</span><br>animation: sway（搖擺）
+            </div>
+            <div class="anim-box anim-float">animation: float<br>（浮動）</div>
+            <div class="anim-box anim-pulse">animation: pulse<br>（脈衝）</div>
+            <div>
+                <span class="anim-spin">⚙️</span><br>
+                <small>animation: spin（旋轉）</small>
+            </div>
+        </div>
+
+        <div class="anim-color">
+            animation: colorCycle（顏色循環） — 觀察背景顏色的變化！
+        </div>
+
+        <h3>slideInUp + animation-delay（延遲出現）</h3>
+        <div class="slide-demo">
+            這個元素用 animation: slideInUp 0.5s ease，從下方滑入。
+            animation-fill-mode: both 確保動畫結束後保持最終狀態。
+        </div>
+
+        <h3>進度條動畫</h3>
+        <p>行程進度：</p>
+        <div class="progress-container">
+            <div class="progress-bar pb-70" style="--target-width: 70%;">70%（第12天）</div>
+        </div>
+        <p>裝備準備：</p>
+        <div class="progress-container">
+            <div class="progress-bar pb-85" style="--target-width: 85%;">85%</div>
+        </div>
+        <p>體能指數：</p>
+        <div class="progress-container">
+            <div class="progress-bar pb-100" style="--target-width: 100%;">100%</div>
+        </div>
+
+        <!-- ===== 3. CSS Transform ===== -->
+        <h2>🔄 3. CSS Transform（轉換）</h2>
+        <p>將鼠標懸停在各元素上，觀察 2D 轉換效果：</p>
+
+        <div class="transform-grid">
+            <div class="transform-box tx-translate">translate(10px,-10px)<br>（平移）</div>
+            <div class="transform-box tx-rotate">rotate(15deg)<br>（旋轉）</div>
+            <div class="transform-box tx-scale">scale(1.2)<br>（縮放）</div>
+            <div class="transform-box tx-skew">skewX(15deg)<br>（傾斜）</div>
+            <div class="transform-box tx-multi">多重轉換<br>translate + rotate + scale</div>
+        </div>
+
+        <h3>3D 翻轉卡片（hover 試試！）</h3>
+        <div style="display:flex; gap:16px; flex-wrap:wrap; margin-bottom:16px;">
+            <div class="flip-card">
+                <div class="flip-card-inner">
+                    <div class="flip-front">🏔️ 聖母峰基地營<br>（正面）</div>
+                    <div class="flip-back">海拔：5364m<br>距離峰頂：3485m<br>（背面）</div>
+                </div>
+            </div>
+            <div class="flip-card">
+                <div class="flip-card-inner">
+                    <div class="flip-front">🎒 行山裝備<br>（hover 翻轉）</div>
+                    <div class="flip-back">登山靴、衝鋒衣、頭燈、血氧儀</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== 4. CSS 濾鏡 ===== -->
+        <h2>🌈 4. CSS Filter（濾鏡效果）</h2>
+        <div class="filter-grid">
+            <div class="filter-item">
+                <img class="f-none" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Bodnath_stupa.jpg/200px-Bodnath_stupa.jpg" alt="原圖">
+                <span>原圖</span>
+            </div>
+            <div class="filter-item">
+                <img class="f-gray" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Bodnath_stupa.jpg/200px-Bodnath_stupa.jpg" alt="灰度">
+                <span>grayscale(100%)</span>
+            </div>
+            <div class="filter-item">
+                <img class="f-sepia" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Bodnath_stupa.jpg/200px-Bodnath_stupa.jpg" alt="棕褐">
+                <span>sepia(80%)</span>
+            </div>
+            <div class="filter-item">
+                <img class="f-blur" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Bodnath_stupa.jpg/200px-Bodnath_stupa.jpg" alt="模糊">
+                <span>blur(2px)</span>
+            </div>
+            <div class="filter-item">
+                <img class="f-bright" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Bodnath_stupa.jpg/200px-Bodnath_stupa.jpg" alt="亮度">
+                <span>brightness(1.5)</span>
+            </div>
+            <div class="filter-item">
+                <img class="f-contrast" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Bodnath_stupa.jpg/200px-Bodnath_stupa.jpg" alt="對比">
+                <span>contrast(2)</span>
+            </div>
+            <div class="filter-item">
+                <img class="f-hue" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Bodnath_stupa.jpg/200px-Bodnath_stupa.jpg" alt="色相">
+                <span>hue-rotate(90deg)</span>
+            </div>
+            <div class="filter-item">
+                <img class="f-saturate" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Bodnath_stupa.jpg/200px-Bodnath_stupa.jpg" alt="飽和">
+                <span>saturate(3)</span>
+            </div>
+        </div>
+
+        <!-- ===== 5. clip-path ===== -->
+        <h2>✂️ 5. clip-path（裁剪形狀）</h2>
+        <div class="clip-demo">
+            <div><div class="clip-box clip-circle">circle</div><small>circle(50%)</small></div>
+            <div><div class="clip-box clip-tri">triangle</div><small>三角形</small></div>
+            <div><div class="clip-box clip-pent">pentagon</div><small>五邊形</small></div>
+            <div><div class="clip-box clip-rhombus">rhombus</div><small>菱形</small></div>
+            <div><div class="clip-box" style="border-radius:10px;">原始</div><small>原始矩形</small></div>
+        </div>
+
+        <!-- ===== 6. 響應式設計 ===== -->
+        <h2>📱 6. 響應式設計（Media Queries）</h2>
+        <p>試試調整瀏覽器視窗寬度，觀察以下方塊的顏色變化：</p>
+
+        <div class="responsive-demo">
+            🖥️ 桌面（>1024px）：綠色 |
+            📱 平板（≤1024px）：橙色 |
+            📲 手機（≤600px）：紅色
+        </div>
+
+        <p>調整視窗寬度的方法：按 F12 → 點選頂部的「手機圖示」（Toggle Device Toolbar），可以模擬不同裝置！</p>
+
+        <!-- 學習總結 -->
+        <h2>📚 本頁學習要點總結</h2>
+        <ol>
+            <li>CSS 變數：<code>:root { --name: value; } 和 var(--name)</code></li>
+            <li>動畫定義：<code>@keyframes name { from/to 或 0%/100% }</code></li>
+            <li>動畫套用：<code>animation: name duration timing-function delay iteration-count direction fill-mode</code></li>
+            <li>2D 轉換：<code>translate() rotate() scale() skew()</code></li>
+            <li>3D 轉換：<code>perspective rotateX/Y/Z() transform-style: preserve-3d backface-visibility</code></li>
+            <li>CSS 濾鏡：<code>filter: grayscale sepia blur brightness contrast hue-rotate saturate drop-shadow</code></li>
+            <li>裁剪：<code>clip-path: circle() polygon()</code></li>
+            <li>響應式：<code>@media (max-width: 600px) { }</code></li>
+            <li><code>position: sticky</code>：捲動時固定元素</li>
+            <li><code>clamp()</code>：響應式字型大小</li>
+        </ol>
+
+    </div>
+
+    <div class="page-footer">
+        <p>← <a href="html-css-intermediate.html">上一頁：進階 CSS</a> | <a href="index.html">返回主頁</a> | <a href="html-css-js-basic.html">下一頁：基礎 JS</a> →</p>
+        <p>&copy; 2024 吳Sir的尼泊爾遠足遊記 — 香港中學資訊科技科教學用途</p>
+    </div>
+
+</body>
+</html>

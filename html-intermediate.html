@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<!--
+    =====================================================
+    進階 HTML 示範頁面
+    主題：吳Sir的尼泊爾遠足遊記 — 第二天：飛往盧卡拉
+    學習重點：表格、表單、語義化標籤
+    注意：此頁面「沒有」使用任何 CSS 或 JavaScript
+    =====================================================
+-->
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>進階 HTML — 第二天：飛往盧卡拉</title>
+</head>
+<body>
+
+    <p><a href="index.html">← 返回主頁</a></p>
+
+    <!-- ==========================================
+         HTML5 語義化標籤（Semantic Elements）
+         語義化標籤讓 HTML 更有意義，有助 SEO 和無障礙設計。
+         按 F12 → Elements，觀察這些標籤的結構！
+         ========================================== -->
+
+    <!-- <header> 網頁或區塊的標題區 -->
+    <header>
+        <h1>🏔️ 吳Sir的尼泊爾遠足遊記</h1>
+        <!-- <nav> 導航連結區 -->
+        <nav>
+            <ul>
+                <li><a href="index.html">主頁</a></li>
+                <li><a href="html-basic.html">基礎 HTML</a></li>
+                <li><a href="html-intermediate.html">進階 HTML（本頁）</a></li>
+                <li><a href="html-advanced.html">高階 HTML</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- <main> 網頁的主要內容（每頁只能有一個） -->
+    <main>
+
+        <h2>第二天：飛往盧卡拉——進階 HTML 示範</h2>
+
+        <!-- ==========================================
+             1. 語義化標籤：<article> 和 <section>
+             ========================================== -->
+
+        <!-- <article> 代表獨立的內容，可以單獨發佈（如新聞、博文） -->
+        <article>
+            <h2>📰 行程日誌：盧卡拉的驚心之旅</h2>
+
+            <!-- <section> 代表文章或頁面中的一個主題區塊 -->
+            <section>
+                <h3>早上：搭乘小型飛機</h3>
+                <p>
+                    清晨五點，吳Sir已在加德滿都的德里奇卡爾機場等候。
+                    前往盧卡拉的小型螺旋槳飛機只有約 20 個座位，
+                    飛行時間約 30 分鐘，卻被《旅遊頻道》評選為
+                    <strong>全球最危險的機場之一</strong>。
+                </p>
+                <p>
+                    盧卡拉機場（Tenzing-Hillary Airport）的跑道長度只有約 527 米，
+                    末端是峭壁懸崖。飛機必須利用斜坡助力降落，驚險萬分！
+                </p>
+            </section>
+
+            <section>
+                <h3>下午：開始徒步</h3>
+                <p>
+                    抵達盧卡拉（海拔 2860 米）後，稍作休息，便開始第一段徒步。
+                    沿途可見雪山、杜鵑花叢和當地雪巴村莊。
+                </p>
+
+                <!-- <aside> 補充資訊，與主要內容相關但不屬於主線 -->
+                <aside>
+                    <h4>💡 小知識：盧卡拉機場</h4>
+                    <p>機場以首位登頂聖母峰的登山家 Edmund Hillary 和雪巴人 Tenzing Norgay 命名。</p>
+                </aside>
+            </section>
+        </article>
+
+        <hr>
+
+        <!-- ==========================================
+             2. 表格 <table>
+             ========================================== -->
+        <section>
+            <h2>📊 行程比較表格</h2>
+
+            <!--
+                表格結構：
+                <table> — 整個表格
+                  <caption> — 表格標題
+                  <thead> — 表頭區域
+                    <tr> — 一行（table row）
+                      <th> — 表頭格（加粗、置中）
+                  <tbody> — 表格內容
+                    <tr> — 一行
+                      <td> — 資料格（table data）
+                  <tfoot> — 表格尾部
+            -->
+            <table border="1">
+                <caption>EBC 路線各段資料</caption>
+
+                <thead>
+                    <tr>
+                        <th>天數</th>
+                        <th>起點</th>
+                        <th>終點</th>
+                        <th>距離 (km)</th>
+                        <th>海拔升降</th>
+                        <th>難度</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>第 1 天</td>
+                        <td>加德滿都</td>
+                        <td>盧卡拉（飛機）</td>
+                        <td>—</td>
+                        <td>+1460m</td>
+                        <td>輕鬆</td>
+                    </tr>
+                    <tr>
+                        <td>第 2 天</td>
+                        <td>盧卡拉 2860m</td>
+                        <td>法克定 2610m</td>
+                        <td>8.5</td>
+                        <td>-250m</td>
+                        <td>輕鬆</td>
+                    </tr>
+                    <tr>
+                        <td>第 3 天</td>
+                        <td>法克定 2610m</td>
+                        <td>南崎巴扎 3440m</td>
+                        <td>12</td>
+                        <td>+830m</td>
+                        <td>中等</td>
+                    </tr>
+                    <tr>
+                        <!-- rowspan 讓一個格子跨越多行 -->
+                        <td rowspan="2">第 4-5 天</td>
+                        <td>南崎巴扎（休息）</td>
+                        <td>南崎巴扎 3440m</td>
+                        <td>—</td>
+                        <td>高山適應</td>
+                        <td>輕鬆</td>
+                    </tr>
+                    <tr>
+                        <td>往艾佛勒斯觀景台</td>
+                        <td>3880m</td>
+                        <td>5</td>
+                        <td>+440m</td>
+                        <td>中等</td>
+                    </tr>
+                    <tr>
+                        <td>第 7 天</td>
+                        <td>騰木齊 3860m</td>
+                        <td>迪布齊 4620m</td>
+                        <td>7</td>
+                        <td>+760m</td>
+                        <td>中等</td>
+                    </tr>
+                    <tr>
+                        <td>第 12 天</td>
+                        <td>戈拉克謝普 5140m</td>
+                        <td>基地營 5364m</td>
+                        <td>4</td>
+                        <td>+224m</td>
+                        <td>困難</td>
+                    </tr>
+                </tbody>
+
+                <tfoot>
+                    <tr>
+                        <!-- colspan 讓一個格子跨越多欄 -->
+                        <td colspan="3"><strong>全程總計</strong></td>
+                        <td><strong>~130km</strong></td>
+                        <td><strong>+3964m</strong></td>
+                        <td>—</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </section>
+
+        <hr>
+
+        <!-- ==========================================
+             3. 表單 <form>
+             注意：這個表單沒有連接後端，只作示範用途
+             ========================================== -->
+        <section>
+            <h2>📝 報名參加吳Sir下次行山活動</h2>
+
+            <!--
+                <form> 的重要屬性：
+                - action：表單提交到哪個網址
+                - method：提交方式（get 或 post）
+            -->
+            <form action="#" method="post">
+
+                <!-- <fieldset> 將相關表單元素分組，<legend> 顯示分組標題 -->
+                <fieldset>
+                    <legend>個人資料</legend>
+
+                    <!-- label + input 是表單的基本組合 -->
+                    <!-- for 屬性必須與 input 的 id 相同，點擊 label 可聚焦 input -->
+                    <p>
+                        <label for="name">姓名：</label>
+                        <!-- type="text" 是文字輸入框 -->
+                        <input type="text" id="name" name="name"
+                               placeholder="請輸入真實姓名"
+                               required
+                               maxlength="30">
+                    </p>
+
+                    <p>
+                        <label for="email">電郵：</label>
+                        <!-- type="email" 會驗證電郵格式 -->
+                        <input type="email" id="email" name="email"
+                               placeholder="example@school.edu.hk"
+                               required>
+                    </p>
+
+                    <p>
+                        <label for="phone">電話：</label>
+                        <!-- type="tel" 在手機上顯示數字鍵盤 -->
+                        <input type="tel" id="phone" name="phone"
+                               placeholder="98765432"
+                               pattern="[0-9]{8}">
+                    </p>
+
+                    <p>
+                        <label for="birthday">出生日期：</label>
+                        <!-- type="date" 顯示日期選擇器 -->
+                        <input type="date" id="birthday" name="birthday">
+                    </p>
+
+                    <p>
+                        <label for="age">年齡：</label>
+                        <!-- type="number" 只接受數字 -->
+                        <input type="number" id="age" name="age"
+                               min="18" max="70" value="25">
+                    </p>
+                </fieldset>
+
+                <fieldset>
+                    <legend>行山經驗</legend>
+
+                    <p>
+                        <label for="level">體能水平：</label>
+                        <!-- <select> 下拉選單 -->
+                        <select id="level" name="level">
+                            <option value="">—— 請選擇 ——</option>
+                            <!-- <optgroup> 分組選項 -->
+                            <optgroup label="初學者">
+                                <option value="beginner1">很少行山（每年少於 5 次）</option>
+                                <option value="beginner2">偶爾行山（每月 1-2 次）</option>
+                            </optgroup>
+                            <optgroup label="有經驗">
+                                <option value="inter">定期行山（每週 1 次）</option>
+                                <option value="advanced">資深山友（每週多次）</option>
+                            </optgroup>
+                        </select>
+                    </p>
+
+                    <!-- 單選按鈕 (Radio Buttons)：同一 name 只能選一個 -->
+                    <p>曾到達的最高海拔：</p>
+                    <label>
+                        <input type="radio" name="altitude" value="low"> 500 米以下
+                    </label><br>
+                    <label>
+                        <input type="radio" name="altitude" value="medium"> 500–2000 米
+                    </label><br>
+                    <label>
+                        <input type="radio" name="altitude" value="high"> 2000–4000 米
+                    </label><br>
+                    <label>
+                        <input type="radio" name="altitude" value="extreme"> 4000 米以上
+                    </label>
+
+                    <!-- 核取方塊 (Checkboxes)：可以選多個 -->
+                    <p>已擁有的裝備（可多選）：</p>
+                    <label>
+                        <input type="checkbox" name="gear" value="boots"> 登山靴
+                    </label><br>
+                    <label>
+                        <input type="checkbox" name="gear" value="jacket"> 衝鋒衣
+                    </label><br>
+                    <label>
+                        <input type="checkbox" name="gear" value="poles"> 登山杖
+                    </label><br>
+                    <label>
+                        <input type="checkbox" name="gear" value="headlamp"> 頭燈
+                    </label>
+                </fieldset>
+
+                <fieldset>
+                    <legend>其他資料</legend>
+
+                    <p>
+                        <label for="photo">上傳個人相片：</label>
+                        <!-- type="file" 檔案上傳 -->
+                        <input type="file" id="photo" name="photo"
+                               accept="image/*">
+                    </p>
+
+                    <p>
+                        <label for="fitness">體能指數（0-100）：</label>
+                        <!-- type="range" 滑桿 -->
+                        <input type="range" id="fitness" name="fitness"
+                               min="0" max="100" value="50">
+                    </p>
+
+                    <p>
+                        <label for="color">最喜歡的裝備顏色：</label>
+                        <!-- type="color" 顏色選擇器 -->
+                        <input type="color" id="color" name="color" value="#2c5f2e">
+                    </p>
+
+                    <p>
+                        <label for="notes">備註 / 特別需要：</label><br>
+                        <!-- <textarea> 多行文字輸入 -->
+                        <textarea id="notes" name="notes"
+                                  rows="4" cols="50"
+                                  placeholder="例如：素食需求、藥物過敏、特別裝備..."></textarea>
+                    </p>
+                </fieldset>
+
+                <!-- 表單按鈕 -->
+                <p>
+                    <!-- type="submit" 提交按鈕 -->
+                    <button type="submit">📤 提交報名</button>
+
+                    <!-- type="reset" 清除所有輸入 -->
+                    <button type="reset">🗑️ 清除重填</button>
+                </p>
+
+                <!-- 隱藏欄位（不在畫面上顯示，但會隨表單提交） -->
+                <input type="hidden" name="activity" value="nepal-2025">
+
+            </form>
+        </section>
+
+        <hr>
+
+        <!-- ==========================================
+             4. 更多語義化標籤示範
+             ========================================== -->
+        <section>
+            <h2>📌 其他語義化標籤</h2>
+
+            <!-- <figure> 和 <figcaption> 圖片與說明 -->
+            <figure>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Mount_Everest_as_seen_from_Drukair2_PLW_edit.jpg/640px-Mount_Everest_as_seen_from_Drukair2_PLW_edit.jpg"
+                     alt="從飛機上拍攝的聖母峰"
+                     width="400">
+                <figcaption>圖片：從飛機上俯瞰的聖母峰（照片：維基百科）</figcaption>
+            </figure>
+
+            <!-- <details> 和 <summary> 可展開收起的內容 -->
+            <details>
+                <summary>🔍 點擊展開：盧卡拉機場詳細資料</summary>
+                <p>
+                    盧卡拉機場（Tenzing-Hillary Airport）<br>
+                    IATA 代號：LUA<br>
+                    海拔：2860 米<br>
+                    跑道長度：527 米<br>
+                    跑道坡度：12%（跑道向懸崖斜下，迫使飛機減速）<br>
+                    每年旅客人數：約 5 萬人
+                </p>
+            </details>
+
+            <details>
+                <summary>🍛 點擊展開：尼泊爾特色食物</summary>
+                <ul>
+                    <li><strong>Dal Bhat（達巴）</strong>：扁豆湯配白飯，是尼泊爾國民主食</li>
+                    <li><strong>Momo（莫莫）</strong>：尼泊爾式餃子</li>
+                    <li><strong>Thukpa（土克巴）</strong>：西藏式麵湯</li>
+                    <li><strong>Chang（糌粑酒）</strong>：用青稞釀造的傳統米酒</li>
+                </ul>
+            </details>
+
+            <!-- <mark> 和 <time> 示範 -->
+            <p>
+                吳Sir在 <time datetime="2024-10-02">2024年10月2日</time> 早上
+                <time datetime="05:30">05:30</time> 出發前往機場。
+                他的登機閘口是 <mark>3號閘</mark>，飛機型號是 <mark>Twin Otter</mark>。
+            </p>
+
+            <!-- <progress> 進度條 -->
+            <p>
+                行程完成度：
+                <progress value="12" max="17">12/17 天</progress>
+                <span>（第 12 天，共 17 天）</span>
+            </p>
+
+            <!-- <meter> 儀量器 -->
+            <p>
+                體能狀態：
+                <meter value="72" min="0" max="100" low="30" high="80" optimum="90">72%</meter>
+                <span>72/100</span>
+            </p>
+        </section>
+
+        <hr>
+
+        <!-- 學習總結 -->
+        <section>
+            <h2>📚 本頁學習要點總結</h2>
+            <ol>
+                <li><code>&lt;header&gt;&lt;nav&gt;&lt;main&gt;&lt;footer&gt;</code>：HTML5 語義化結構標籤</li>
+                <li><code>&lt;article&gt;&lt;section&gt;&lt;aside&gt;</code>：內容分區標籤</li>
+                <li><code>&lt;table&gt;&lt;thead&gt;&lt;tbody&gt;&lt;tfoot&gt;</code>：表格結構</li>
+                <li><code>colspan rowspan</code>：表格格子合併</li>
+                <li><code>&lt;form&gt;&lt;input&gt;&lt;select&gt;&lt;textarea&gt;</code>：表單元素</li>
+                <li><code>&lt;fieldset&gt;&lt;legend&gt;</code>：表單分組</li>
+                <li>多種 <code>type</code> 屬性：text, email, number, date, file, range, color 等</li>
+                <li><code>&lt;figure&gt;&lt;figcaption&gt;</code>：圖片與說明</li>
+                <li><code>&lt;details&gt;&lt;summary&gt;</code>：可展開內容</li>
+                <li><code>&lt;progress&gt;&lt;meter&gt;</code>：進度和儀量器</li>
+            </ol>
+        </section>
+
+    </main>
+
+    <!-- <footer> 網頁底部區域 -->
+    <footer>
+        <hr>
+        <p>← <a href="html-basic.html">上一頁：基礎 HTML</a> | <a href="index.html">返回主頁</a> | <a href="html-advanced.html">下一頁：高階 HTML</a> →</p>
+        <p>&copy; 2024 吳Sir的尼泊爾遠足遊記 — 香港中學資訊科技科教學用途</p>
+    </footer>
+
+</body>
+</html>

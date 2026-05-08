@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<!--
+    =====================================================
+    進階 HTML + CSS 示範頁面
+    主題：吳Sir的尼泊爾遠足遊記 — 第八至十天：高山地帶
+    學習重點：Flexbox、CSS Grid、偽類/偽元素、
+             過渡效果、進階選擇器
+    =====================================================
+-->
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>進階 HTML+CSS — 第八至十天：高山地帶</title>
+    <style>
+        /* ===== 全域設定 ===== */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Microsoft JhengHei', 'PingFang TC', sans-serif;
+            background: #f0ede8;
+            color: #1a1a2e;
+            line-height: 1.7;
+        }
+
+        /* ===== 頁首 ===== */
+        .page-header {
+            background: linear-gradient(135deg, #1a3c1b, #2c5f2e);
+            color: white;
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        .page-header h1 { font-size: clamp(1.5rem, 3vw, 2.5rem); margin-bottom: 8px; }
+        .page-header p  { opacity: 0.85; }
+
+        .nav-bar {
+            background: #1a1a2e;
+            padding: 10px 20px;
+            display: flex;
+            gap: 20px;
+        }
+        .nav-bar a { color: #97bc62; text-decoration: none; font-size: 0.9rem; }
+        .nav-bar a:hover { color: #e8a838; }   /* :hover 偽類 */
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 30px 20px; }
+
+        h2 {
+            color: #2c5f2e;
+            border-left: 5px solid #97bc62;
+            padding-left: 12px;
+            margin: 32px 0 16px;
+            font-size: 1.4rem;
+        }
+        h3 { color: #1a3c1b; margin: 20px 0 10px; font-size: 1.1rem; }
+        p  { margin-bottom: 14px; }
+
+        .tip {
+            background: #fff3cd;
+            border-left: 4px solid #e8a838;
+            padding: 12px 16px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            font-size: 0.93rem;
+        }
+
+        /* =====================================================
+           1. FLEXBOX（彈性盒子佈局）
+           ===================================================== */
+        /*
+            Flexbox 用於「一維」佈局（一行或一列）
+            在父元素設定 display: flex，子元素自動排成一行
+        */
+
+        /* -- 1a. Flexbox 基本 -- */
+        .flex-demo {
+            display: flex;                /* 啟用 Flexbox */
+            background: #e8f5e9;
+            border: 2px dashed #2c5f2e;
+            padding: 10px;
+            margin-bottom: 16px;
+            gap: 8px;                     /* 子元素之間的間距 */
+        }
+
+        .flex-item {
+            background: #2c5f2e;
+            color: white;
+            padding: 12px 16px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        /* -- 1b. justify-content：主軸對齊 -- */
+        .flex-start      { justify-content: flex-start; }     /* 預設，靠左 */
+        .flex-center     { justify-content: center; }          /* 置中 */
+        .flex-end        { justify-content: flex-end; }        /* 靠右 */
+        .flex-space-bet  { justify-content: space-between; }  /* 兩端對齊 */
+        .flex-space-aro  { justify-content: space-around; }   /* 均勻分佈 */
+
+        /* -- 1c. align-items：交叉軸對齊 -- */
+        .flex-cross {
+            display: flex;
+            height: 100px;
+            background: #e8f5e9;
+            border: 2px dashed #2c5f2e;
+            padding: 8px;
+            gap: 8px;
+        }
+        .flex-item-tall  { height: 80px; }
+        .flex-item-short { height: 40px; }
+        .align-start   { align-items: flex-start; }
+        .align-center  { align-items: center; }
+        .align-end     { align-items: flex-end; }
+        .align-stretch { align-items: stretch; }
+
+        /* -- 1d. flex-wrap：換行 -- */
+        .flex-wrap-demo {
+            display: flex;
+            flex-wrap: wrap;   /* 允許換行（預設 nowrap 不換行）*/
+            gap: 8px;
+            background: #e8f5e9;
+            border: 2px dashed #2c5f2e;
+            padding: 10px;
+        }
+        .flex-wrap-item {
+            background: #97bc62;
+            color: #1a1a2e;
+            padding: 8px 16px;
+            border-radius: 4px;
+        }
+
+        /* -- 1e. flex-direction -- */
+        .flex-col {
+            display: flex;
+            flex-direction: column; /* 垂直排列（預設 row 水平） */
+            gap: 6px;
+            background: #e8f5e9;
+            border: 2px dashed #2c5f2e;
+            padding: 10px;
+            width: 200px;
+        }
+
+        /* -- 1f. flex-grow / flex-shrink / flex-basis -- */
+        .flex-grow-demo {
+            display: flex;
+            gap: 8px;
+            background: #e8f5e9;
+            border: 2px dashed #2c5f2e;
+            padding: 10px;
+        }
+        .grow-1 { flex-grow: 1; background: #97bc62; color: #1a1a2e; padding: 10px; border-radius: 4px; }
+        .grow-2 { flex-grow: 2; background: #2c5f2e; color: white;   padding: 10px; border-radius: 4px; }
+        .grow-3 { flex-grow: 3; background: #1a3c1b; color: white;   padding: 10px; border-radius: 4px; }
+
+
+        /* =====================================================
+           2. CSS GRID（網格佈局）
+           ===================================================== */
+        /*
+            Grid 用於「二維」佈局（同時控制行和列）
+            在父元素設定 display: grid
+        */
+
+        /* -- 2a. 基本 Grid -- */
+        .grid-basic {
+            display: grid;
+            /* grid-template-columns：定義欄的寬度 */
+            grid-template-columns: 1fr 1fr 1fr;  /* 3等份 */
+            gap: 12px;    /* 同時設定行距和列距 */
+            margin-bottom: 16px;
+        }
+
+        .grid-item {
+            background: #2c5f2e;
+            color: white;
+            padding: 16px;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .grid-item:nth-child(even) { background: #97bc62; color: #1a1a2e; }   /* 偶數項 */
+        .grid-item:nth-child(3n)   { background: #e8a838; color: #1a1a2e; }   /* 每3個 */
+
+        /* -- 2b. 混合寬度 Grid -- */
+        .grid-mixed {
+            display: grid;
+            /* fr（fraction）= 可用空間的分數 */
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        /* -- 2c. Grid 跨欄/跨行 -- */
+        .grid-span {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);  /* repeat(4, 1fr) = 4等份 */
+            grid-template-rows: repeat(3, 80px);
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .span-full   { grid-column: 1 / -1; }          /* 跨全部欄 */
+        .span-2cols  { grid-column: span 2; }           /* 跨2欄 */
+        .span-2rows  { grid-row: span 2; }              /* 跨2行 */
+
+        .gi-green  { background: #2c5f2e; color: white; padding: 8px; border-radius: 4px; display: flex; align-items: center; justify-content: center; }
+        .gi-light  { background: #97bc62; color: #1a1a2e; padding: 8px; border-radius: 4px; display: flex; align-items: center; justify-content: center; }
+        .gi-gold   { background: #e8a838; color: #1a1a2e; padding: 8px; border-radius: 4px; display: flex; align-items: center; justify-content: center; }
+        .gi-dark   { background: #1a3c1b; color: white; padding: 8px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; }
+
+        /* -- 2d. 實際卡片佈局（登山裝備）-- */
+        .card-grid-demo {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            /* auto-fill：自動填充欄數；minmax(200px,1fr)：最小200px，最大1fr */
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        .gear-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            border-top: 4px solid #2c5f2e;
+            transition: transform 0.3s ease, box-shadow 0.3s ease; /* 過渡效果 */
+        }
+        .gear-card:hover {
+            transform: translateY(-5px);    /* hover 時上移 5px */
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        .gear-card .icon { font-size: 2rem; margin-bottom: 8px; }
+        .gear-card h4    { color: #2c5f2e; margin-bottom: 6px; }
+        .gear-card p     { font-size: 0.85rem; color: #666; margin: 0; }
+
+
+        /* =====================================================
+           3. 偽類（Pseudo-classes）
+           ===================================================== */
+        /*
+            偽類用冒號 : 標示，表示元素的特定「狀態」
+        */
+
+        /* :hover — 鼠標懸停 */
+        .hover-demo {
+            background: #97bc62;
+            padding: 12px 20px;
+            border-radius: 6px;
+            display: inline-block;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .hover-demo:hover {
+            background: #2c5f2e;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        /* :focus — 獲得焦點（鍵盤操作或點擊輸入框）*/
+        .focus-demo {
+            border: 2px solid #ccc;
+            padding: 8px 12px;
+            border-radius: 6px;
+            outline: none;
+            transition: border-color 0.3s;
+            width: 250px;
+        }
+        .focus-demo:focus { border-color: #2c5f2e; box-shadow: 0 0 0 3px rgba(44,95,46,0.2); }
+
+        /* :nth-child 選擇器 */
+        .list-demo li { padding: 8px 12px; border-bottom: 1px solid #eee; }
+        .list-demo li:first-child  { background: #d4edda; }  /* 第一個 */
+        .list-demo li:last-child   { background: #f8d7da; border: none; }  /* 最後一個 */
+        .list-demo li:nth-child(2) { background: #fff3cd; }  /* 第2個 */
+        .list-demo li:hover        { background: #e8f5e9; cursor: pointer; }
+
+        /* 連結的狀態偽類 */
+        a:link    { color: #264de4; }          /* 未訪問 */
+        a:visited { color: #6f42c1; }          /* 已訪問 */
+        a:hover   { color: #e34c26; }           /* 懸停 */
+        a:active  { color: #c0392b; }           /* 點擊中 */
+
+
+        /* =====================================================
+           4. 偽元素（Pseudo-elements）
+           ===================================================== */
+        /*
+            偽元素用雙冒號 :: 標示，可以選取元素的「特定部分」
+            或插入「虛擬元素」（::before / ::after 不需要 HTML 元素）
+        */
+
+        /* ::before 在元素內容「之前」插入內容 */
+        .before-demo::before {
+            content: '🏔️ ';  /* content 屬性必須設定（即使為空 content: ""）*/
+            color: #2c5f2e;
+        }
+
+        /* ::after 在元素內容「之後」插入內容 */
+        .after-demo::after {
+            content: ' ✅';
+        }
+
+        /* ::first-letter：首字放大（Drop Cap 效果）*/
+        .first-letter-demo::first-letter {
+            font-size: 3em;
+            font-weight: bold;
+            float: left;
+            line-height: 1;
+            margin-right: 4px;
+            color: #2c5f2e;
+        }
+
+        /* ::selection：選取文字時的樣式 */
+        ::selection {
+            background: #97bc62;
+            color: white;
+        }
+
+
+        /* =====================================================
+           5. CSS 過渡效果（Transition）
+           ===================================================== */
+
+        .transition-box {
+            width: 100px;
+            height: 100px;
+            background: #2c5f2e;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.85rem;
+            text-align: center;
+            cursor: pointer;
+            /* transition: 屬性 時間 緩動函數 延遲 */
+            transition: width 0.4s ease,
+                        height 0.4s ease,
+                        background-color 0.4s ease,
+                        border-radius 0.4s ease;
+        }
+        .transition-box:hover {
+            width: 200px;
+            height: 120px;
+            background-color: #e8a838;
+            border-radius: 60px;
+            color: #1a1a2e;
+        }
+
+        /* 不同的緩動函數（Easing）*/
+        .ease-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
+
+        .ease-btn {
+            padding: 10px 20px;
+            background: #264de4;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+            transition-property: transform;
+            transition-duration: 0.5s;
+            font-size: 0.85rem;
+        }
+        .ease-btn:hover { transform: translateX(30px); }
+
+        .ease-linear  { transition-timing-function: linear; }
+        .ease-ease    { transition-timing-function: ease; }
+        .ease-in      { transition-timing-function: ease-in; }
+        .ease-out     { transition-timing-function: ease-out; }
+        .ease-in-out  { transition-timing-function: ease-in-out; }
+
+
+        /* =====================================================
+           6. 進階 CSS 選擇器
+           ===================================================== */
+
+        /* 後代選擇器：section 內的 p */
+        .advanced-sel-demo p { color: #2c5f2e; }
+
+        /* 子代選擇器：只選直接子元素（不含孫元素）*/
+        .advanced-sel-demo > h4 { text-decoration: underline; }
+
+        /* 相鄰兄弟選擇器：h4 之後「緊接」的 p */
+        .advanced-sel-demo h4 + p { font-weight: bold; }
+
+        /* 通用兄弟選擇器：h4 之後「所有」p */
+        .advanced-sel-demo h4 ~ p { font-style: italic; }
+
+        /* 屬性選擇器 */
+        input[type="text"]   { border: 2px solid #2c5f2e; }
+        input[type="email"]  { border: 2px solid #264de4; }
+        a[target="_blank"]::after { content: ' 🔗'; font-size: 0.8em; }
+
+        /* :not() 排除選擇器 */
+        .not-demo li:not(.excluded) { background: #d4edda; padding: 6px 10px; margin-bottom: 4px; }
+        .not-demo .excluded         { background: #f8d7da; padding: 6px 10px; color: #999; text-decoration: line-through; }
+
+        /* ===== 頁腳 ===== */
+        .page-footer {
+            background: #1a1a2e;
+            color: #ccc;
+            text-align: center;
+            padding: 24px;
+            margin-top: 40px;
+            font-size: 0.88rem;
+            line-height: 2;
+        }
+        .page-footer a { color: #97bc62; }
+    </style>
+</head>
+<body>
+
+    <div class="page-header">
+        <h1>🏔️ 吳Sir的尼泊爾遠足遊記</h1>
+        <p>進階 HTML + CSS — 第八至十天：高山地帶（海拔 4000–5000m）</p>
+    </div>
+
+    <nav class="nav-bar">
+        <a href="index.html">← 主頁</a>
+        <a href="html-css-basic.html">← 基礎 CSS</a>
+        <a href="html-css-advanced.html">高階 CSS →</a>
+    </nav>
+
+    <div class="container">
+
+        <h2>第八至十天：挑戰高山——進階 CSS 示範</h2>
+        <p>
+            進入海拔 4000 米以上的地帶，吳Sir感到輕微頭痛——這是<strong>高山症（AMS）</strong>的初期症狀。
+            每天上升高度控制在 400 米以內，讓身體慢慢適應稀薄的空氣。
+        </p>
+        <div class="tip">
+            💡 按 F12 → Elements，選取各個示範元素，在「Styles」面板查看 CSS 屬性！
+               特別觀察 display: flex 和 display: grid 的效果。
+        </div>
+
+        <!-- ===========================
+             1. FLEXBOX
+             =========================== -->
+        <h2>🔷 1. Flexbox 彈性盒子佈局</h2>
+        <p>Flexbox 適合「一維」排列（一行或一列）。父元素設 <code>display: flex</code>，子元素自動排成一行。</p>
+
+        <h3>justify-content：主軸（水平）對齊</h3>
+        <p>flex-start（靠左）：</p>
+        <div class="flex-demo flex-start">
+            <div class="flex-item">Day 8</div>
+            <div class="flex-item">Day 9</div>
+            <div class="flex-item">Day 10</div>
+        </div>
+        <p>center（置中）：</p>
+        <div class="flex-demo flex-center">
+            <div class="flex-item">Day 8</div>
+            <div class="flex-item">Day 9</div>
+            <div class="flex-item">Day 10</div>
+        </div>
+        <p>space-between（兩端對齊）：</p>
+        <div class="flex-demo flex-space-bet">
+            <div class="flex-item">Day 8</div>
+            <div class="flex-item">Day 9</div>
+            <div class="flex-item">Day 10</div>
+        </div>
+        <p>space-around（均勻分佈）：</p>
+        <div class="flex-demo flex-space-aro">
+            <div class="flex-item">Day 8</div>
+            <div class="flex-item">Day 9</div>
+            <div class="flex-item">Day 10</div>
+        </div>
+
+        <h3>align-items：交叉軸（垂直）對齊</h3>
+        <p>center（垂直置中）：</p>
+        <div class="flex-cross align-center">
+            <div class="flex-item" style="height:80px;">高</div>
+            <div class="flex-item" style="height:40px;">矮</div>
+            <div class="flex-item" style="height:60px;">中</div>
+        </div>
+
+        <h3>flex-grow：彈性分配空間</h3>
+        <div class="flex-grow-demo">
+            <div class="grow-1">flex-grow: 1</div>
+            <div class="grow-2">flex-grow: 2（佔2份）</div>
+            <div class="grow-3">flex-grow: 3（佔3份）</div>
+        </div>
+
+        <h3>flex-wrap：允許換行</h3>
+        <div class="flex-wrap-demo">
+            <div class="flex-wrap-item">盧卡拉</div>
+            <div class="flex-wrap-item">法克定</div>
+            <div class="flex-wrap-item">南崎巴扎</div>
+            <div class="flex-wrap-item">坤丁</div>
+            <div class="flex-wrap-item">騰波齊</div>
+            <div class="flex-wrap-item">迪布齊</div>
+            <div class="flex-wrap-item">洛布齊</div>
+            <div class="flex-wrap-item">戈拉克謝普</div>
+        </div>
+
+        <!-- ===========================
+             2. CSS GRID
+             =========================== -->
+        <h2>🔶 2. CSS Grid 網格佈局</h2>
+        <p>Grid 適合「二維」佈局（同時控制行和列）。父元素設 <code>display: grid</code>。</p>
+
+        <h3>基本 3 欄 Grid</h3>
+        <div class="grid-basic">
+            <div class="grid-item">加德滿都</div>
+            <div class="grid-item">盧卡拉</div>
+            <div class="grid-item">法克定</div>
+            <div class="grid-item">南崎巴扎</div>
+            <div class="grid-item">坤丁</div>
+            <div class="grid-item">騰波齊</div>
+        </div>
+        <p><small>注意 :nth-child(even) 和 :nth-child(3n) 選擇器的顏色效果！</small></p>
+
+        <h3>Grid 跨欄（span）示範</h3>
+        <div class="grid-span">
+            <div class="gi-gold span-full">grid-column: 1 / -1（跨全部欄）—— 標題：聖母峰基地營行程</div>
+            <div class="gi-green span-2rows">grid-row: span 2（跨2行）—— 南崎巴扎</div>
+            <div class="gi-light span-2cols">grid-column: span 2（跨2欄）—— 騰波齊到迪布齊</div>
+            <div class="gi-dark">洛布齊</div>
+            <div class="gi-dark">戈拉克謝普</div>
+            <div class="gi-gold">基地營 🎯</div>
+        </div>
+
+        <h3>auto-fill + minmax 自適應卡片佈局</h3>
+        <div class="card-grid-demo">
+            <div class="gear-card">
+                <div class="icon">🥾</div>
+                <h4>登山靴</h4>
+                <p>防水Gore-Tex靴面，Vibram鞋底，確保抓地力</p>
+            </div>
+            <div class="gear-card">
+                <div class="icon">🧥</div>
+                <h4>羽絨外套</h4>
+                <p>700 Fill Power，適合零下20度，重量只有500g</p>
+            </div>
+            <div class="gear-card">
+                <div class="icon">🎒</div>
+                <h4>背包</h4>
+                <p>65升容量，帶雨衣，鋁架支撐，減輕背部負擔</p>
+            </div>
+            <div class="gear-card">
+                <div class="icon">💊</div>
+                <h4>高山藥物</h4>
+                <p>乙醯唑胺（Diamox），預防和治療高山症</p>
+            </div>
+            <div class="gear-card">
+                <div class="icon">🌡️</div>
+                <h4>血氧儀</h4>
+                <p>監測血氧飽和度，低於88%需立即下撤</p>
+            </div>
+            <div class="gear-card">
+                <div class="icon">🔦</div>
+                <h4>頭燈</h4>
+                <p>凌晨出發必備，選擇防水型號，備用電池</p>
+            </div>
+        </div>
+        <p><small>將鼠標移到卡片上，觀察 hover 的過渡效果！</small></p>
+
+        <!-- ===========================
+             3. 偽類選擇器
+             =========================== -->
+        <h2>🎯 3. 偽類選擇器（Pseudo-classes）</h2>
+
+        <h3>:hover, :focus 示範</h3>
+        <div class="hover-demo">將鼠標移到這裡（:hover 效果）</div>
+        <br><br>
+        <input class="focus-demo" type="text" placeholder="點擊輸入框，觀察 :focus 效果">
+
+        <h3>:nth-child / :first-child / :last-child</h3>
+        <ul class="list-demo" style="list-style:none; border:1px solid #ddd; border-radius:6px; overflow:hidden;">
+            <li>第一天：加德滿都（:first-child — 綠色背景）</li>
+            <li>第二天：盧卡拉（:nth-child(2) — 黃色背景）</li>
+            <li>第三天：法克定</li>
+            <li>第四天：南崎巴扎</li>
+            <li>第五天：高山適應（:last-child — 紅色背景）</li>
+        </ul>
+
+        <h3>:not() 排除選擇器</h3>
+        <ul class="not-demo" style="list-style:none; padding:0;">
+            <li>登山靴（已打包）</li>
+            <li class="excluded">雨傘（此行程不需要，已排除）</li>
+            <li>頭燈（已打包）</li>
+            <li>急救包（已打包）</li>
+        </ul>
+
+        <!-- ===========================
+             4. 偽元素
+             =========================== -->
+        <h2>✨ 4. 偽元素（Pseudo-elements）</h2>
+
+        <p class="before-demo">這段文字前面有一個山峰 emoji（由 ::before 插入）</p>
+        <p class="after-demo">這段文字後面有一個確認標記（由 ::after 插入）</p>
+
+        <p class="first-letter-demo">
+            今天是行程的第十天，吳Sir已成功適應高山環境。清晨的陽光照在雪白的山峰上，
+            整個大地都染上了金色。雖然每一步都很費力，但心中充滿了對目標的渴望。
+        </p>
+        <p><em>試試用鼠標選取文字，觀察 ::selection 的效果！</em></p>
+
+        <!-- ===========================
+             5. 過渡效果
+             =========================== -->
+        <h2>🌊 5. CSS 過渡效果（Transition）</h2>
+        <p>
+            <code>transition</code> 屬性讓 CSS 屬性的改變「平滑過渡」，
+            而不是即時跳變。常與 <code>:hover</code> 配合使用。
+        </p>
+
+        <h3>改變大小和形狀（hover 試試！）</h3>
+        <div class="transition-box">懸停我<br>transition</div>
+
+        <h3>不同的緩動函數（Easing Functions）</h3>
+        <p>將鼠標移到各按鈕上，感受不同的加速感：</p>
+        <div class="ease-row">
+            <div class="ease-btn ease-linear">linear（等速）</div>
+            <div class="ease-btn ease-ease">ease（漸快漸慢）</div>
+            <div class="ease-btn ease-in">ease-in（漸快）</div>
+            <div class="ease-btn ease-out">ease-out（漸慢）</div>
+            <div class="ease-btn ease-in-out">ease-in-out</div>
+        </div>
+
+        <!-- ===========================
+             6. 進階選擇器
+             =========================== -->
+        <h2>🔍 6. 進階 CSS 選擇器</h2>
+        <div class="advanced-sel-demo">
+            <h4>後代選擇器：.container p（綠色文字）</h4>
+            <p>這段文字是 .advanced-sel-demo 的「後代」p，呈綠色。</p>
+            <h4>子代選擇器：.container > h4（底線）</h4>
+            <p>h4 + p（相鄰兄弟）：這段文字緊接在 h4 後，呈粗體。</p>
+            <p>h4 ~ p（通用兄弟）：這段也在 h4 後，呈斜體。</p>
+        </div>
+
+        <!-- 學習總結 -->
+        <h2>📚 本頁學習要點總結</h2>
+        <ol>
+            <li>Flexbox：<code>display: flex</code>、<code>justify-content</code>、<code>align-items</code>、<code>flex-wrap</code>、<code>flex-grow</code></li>
+            <li>CSS Grid：<code>display: grid</code>、<code>grid-template-columns</code>、<code>repeat()</code>、<code>fr</code>、<code>span</code>、<code>auto-fill</code>、<code>minmax()</code></li>
+            <li>偽類：<code>:hover</code>、<code>:focus</code>、<code>:nth-child</code>、<code>:first-child</code>、<code>:last-child</code>、<code>:not()</code></li>
+            <li>連結偽類：<code>:link</code>、<code>:visited</code>、<code>:hover</code>、<code>:active</code></li>
+            <li>偽元素：<code>::before</code>、<code>::after</code>、<code>::first-letter</code>、<code>::selection</code></li>
+            <li>過渡效果：<code>transition</code>、緩動函數（ease, linear 等）</li>
+            <li>進階選擇器：後代、子代（>）、相鄰兄弟（+）、通用兄弟（~）、屬性（[ ]）</li>
+        </ol>
+
+    </div>
+
+    <div class="page-footer">
+        <p>← <a href="html-css-basic.html">上一頁：基礎 CSS</a> | <a href="index.html">返回主頁</a> | <a href="html-css-advanced.html">下一頁：高階 CSS</a> →</p>
+        <p>&copy; 2024 吳Sir的尼泊爾遠足遊記 — 香港中學資訊科技科教學用途</p>
+    </div>
+
+</body>
+</html>

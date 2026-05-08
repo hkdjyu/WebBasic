@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<!--
+    =====================================================
+    基礎 HTML + CSS 示範頁面
+    主題：吳Sir的尼泊爾遠足遊記 — 第六天：騰波齊寺院
+    學習重點：CSS 基礎——顏色、字型、盒模型、邊距、邊框
+    使用：HTML 結構 + 內部 CSS（<style> 標籤）
+    =====================================================
+-->
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>基礎 HTML+CSS — 第六天：騰波齊寺院</title>
+
+    <!--
+        ===================================================
+        <style> 標籤：在 HTML 文件內寫 CSS（內部樣式表）
+        另一種方式是外部 CSS（<link rel="stylesheet" href="style.css">）
+        第三種是行內樣式（直接寫在 HTML 標籤的 style 屬性上）
+        ===================================================
+    -->
+    <style>
+        /* ===== 1. CSS 選擇器 =====
+           selector { property: value; }
+           選擇器告訴瀏覽器要「選哪個」HTML 元素
+        */
+
+        /* 元素選擇器：選取所有指定標籤 */
+        body {
+            /* font-family：字型，逗號分隔，瀏覽器依序嘗試 */
+            font-family: 'Microsoft JhengHei', 'PingFang TC', Arial, sans-serif;
+
+            /* background-color：背景顏色（可用顏色名稱、hex、rgb、hsl） */
+            background-color: #f0ede8;  /* hex 十六進制顏色 */
+
+            /* color：文字顏色 */
+            color: #1a1a2e;
+
+            /* font-size：字型大小 */
+            font-size: 16px;  /* px = 像素 */
+
+            /* line-height：行高（建議 1.5–1.8 倍） */
+            line-height: 1.7;
+
+            /* margin：外邊距（body 預設有一些邊距，這裡重設） */
+            margin: 0;
+        }
+
+        /* ===== 2. 盒模型（Box Model）=====
+           每個 HTML 元素都是一個「盒子」：
+           content（內容）→ padding（內邊距）→ border（邊框）→ margin（外邊距）
+        */
+        /* box-sizing: border-box 讓 width/height 包含 padding 和 border */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        /* ===== 3. 網站標題區 ===== */
+        .page-header {
+            /* background：可同時設定多個背景屬性 */
+            background-color: #2c5f2e;  /* 深綠色（用 hex） */
+            color: white;
+            text-align: center;          /* 文字置中 */
+            padding: 40px 20px;          /* padding：上下 40px，左右 20px */
+
+            /* border-bottom：下邊框  寬度 樣式 顏色 */
+            border-bottom: 5px solid #e8a838;
+        }
+
+        .page-header h1 {
+            font-size: 2rem;       /* rem：相對於根元素字型大小的倍數 */
+            margin: 0 0 10px 0;    /* margin：上 右 下 左（順時針）*/
+            /* text-shadow：文字陰影  x偏移 y偏移 模糊範圍 顏色 */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+            /* rgba：紅 綠 藍 透明度（0=透明，1=不透明）*/
+        }
+
+        .page-header p {
+            font-size: 1.1rem;
+            /* opacity：元素整體透明度（0=完全透明，1=完全不透明）*/
+            opacity: 0.9;
+        }
+
+        /* 導航欄 */
+        .nav-bar {
+            background-color: #1a3c1b;
+            padding: 10px 20px;
+        }
+
+        .nav-bar a {
+            color: #97bc62;
+            text-decoration: none;  /* 移除底線 */
+            margin-right: 20px;     /* 只設右邊距 */
+            font-size: 0.95rem;
+        }
+
+        /* ===== 4. 主容器 ===== */
+        .container {
+            /* max-width：最大寬度（超過此寬度後不再變寬）*/
+            max-width: 900px;
+
+            /* margin: 0 auto：水平置中（auto 自動分配左右邊距）*/
+            margin: 0 auto;
+
+            /* padding：內邊距，讓內容不緊貼邊緣 */
+            padding: 30px 20px;
+        }
+
+        /* ===== 5. 標題樣式 ===== */
+        h2 {
+            color: #2c5f2e;
+            /* border-bottom：標題下方的裝飾線 */
+            border-bottom: 3px solid #97bc62;
+            padding-bottom: 8px;
+            margin-bottom: 16px;
+            font-size: 1.5rem;
+        }
+
+        h3 {
+            color: #1a3c1b;
+            font-size: 1.2rem;
+            margin-top: 24px;
+        }
+
+        /* ===== 6. 段落和文字 ===== */
+        p {
+            margin-bottom: 16px;  /* 段落之間的間距 */
+        }
+
+        /* .highlight：class 選擇器（用 . 開頭）*/
+        .highlight {
+            background-color: #fff3cd;  /* 淺黃色背景 */
+            border-left: 4px solid #e8a838;  /* 左邊橙色邊框 */
+            padding: 12px 16px;
+            border-radius: 4px;         /* 圓角 */
+            margin-bottom: 16px;
+        }
+
+        /* ===== 7. 顏色示範區 ===== */
+        .color-demo {
+            display: flex;    /* Flexbox（詳見進階 CSS） */
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+        }
+
+        .color-box {
+            width: 100px;
+            height: 80px;
+
+            /* 邊框：border-width border-style border-color */
+            border: 2px solid rgba(0,0,0,0.1);
+
+            border-radius: 8px;
+            display: flex;
+            align-items: flex-end;
+            padding: 6px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        /* id 選擇器（用 # 開頭）— 頁面上唯一的元素 */
+        #color-name    { background-color: mediumseagreen; color: white; }
+        #color-hex     { background-color: #e34c26; color: white; }
+        #color-rgb     { background-color: rgb(38, 77, 228); color: white; }
+        #color-rgba    { background-color: rgba(232, 168, 56, 0.8); color: #333; }
+        #color-hsl     { background-color: hsl(125, 38%, 27%); color: white; }
+        #color-hsla    { background-color: hsla(0, 100%, 50%, 0.6); color: white; }
+
+        /* ===== 8. 邊框示範 ===== */
+        .border-demo {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+        }
+
+        .border-box {
+            padding: 16px 20px;
+            background: white;
+            font-size: 0.9rem;
+            min-width: 140px;
+            text-align: center;
+        }
+
+        .b-solid  { border: 3px solid #2c5f2e; }
+        .b-dashed { border: 3px dashed #e8a838; }
+        .b-dotted { border: 3px dotted #e34c26; }
+        .b-double { border: 6px double #264de4; }
+        .b-groove { border: 6px groove #555; }
+
+        /* border-radius 的各種用法 */
+        .br-small   { border: 3px solid #2c5f2e; border-radius: 4px; }
+        .br-medium  { border: 3px solid #2c5f2e; border-radius: 16px; }
+        .br-circle  { border: 3px solid #2c5f2e; border-radius: 50%; width: 80px; height: 80px; line-height: 74px; }
+        .br-pill    { border: 3px solid #2c5f2e; border-radius: 100px; padding: 8px 24px; }
+
+        /* ===== 9. 盒模型視覺化 ===== */
+        .box-model-demo {
+            /* outline：輪廓（不佔空間的邊框，不影響佈局）*/
+            outline: 3px dashed #e8a838;
+            outline-offset: 5px;    /* 輪廓與元素的距離 */
+
+            margin: 30px;           /* 外邊距（橙色區域） */
+            border: 8px solid #2c5f2e;   /* 邊框（綠色）*/
+            padding: 24px;          /* 內邊距（淺綠色區域）*/
+            background-color: #d4edda;  /* 內容背景（內容區）*/
+
+            /* width 設定的是「內容寬度」（除非用 border-box）*/
+            width: 300px;
+        }
+
+        /* ===== 10. 字型示範 ===== */
+        .font-demo-serif    { font-family: Georgia, 'Times New Roman', serif; font-size: 1.1rem; }
+        .font-demo-sans     { font-family: Arial, Helvetica, sans-serif; }
+        .font-demo-mono     { font-family: 'Courier New', Consolas, monospace; background: #eee; padding: 2px 4px; }
+        .font-weight-demo   { font-weight: bold; }
+        .font-style-demo    { font-style: italic; }
+        .font-transform     { text-transform: uppercase; letter-spacing: 3px; }
+        .text-decoration    { text-decoration: underline wavy #e34c26; }
+
+        /* ===== 11. 背景示範 ===== */
+        .bg-gradient {
+            background: linear-gradient(135deg, #2c5f2e, #97bc62);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+
+        .bg-radial {
+            background: radial-gradient(circle, #e8a838, #c0392b);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+
+        /* ===== 12. 尺寸單位 ===== */
+        .units-demo div {
+            background: #2c5f2e;
+            color: white;
+            margin-bottom: 8px;
+            padding: 8px;
+        }
+
+        /* ===== 13. 頁腳 ===== */
+        .page-footer {
+            background-color: #1a1a2e;
+            color: #ccc;
+            text-align: center;
+            padding: 24px 20px;
+            margin-top: 40px;
+            font-size: 0.88rem;
+            line-height: 2;
+        }
+
+        .page-footer a {
+            color: #97bc62;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- 網站標題 -->
+    <div class="page-header">
+        <h1>🏔️ 吳Sir的尼泊爾遠足遊記</h1>
+        <p>基礎 HTML + CSS 示範 — 第六天：騰波齊寺院</p>
+    </div>
+
+    <!-- 導航欄 -->
+    <div class="nav-bar">
+        <a href="index.html">← 主頁</a>
+        <a href="html-advanced.html">← 高階 HTML</a>
+        <a href="html-css-intermediate.html">進階 CSS →</a>
+    </div>
+
+    <!-- 主內容 -->
+    <div class="container">
+
+        <h2>第六天：騰波齊寺院——CSS 基礎示範</h2>
+        <p>
+            今天吳Sir抵達了<strong>騰波齊寺院（Tengboche Monastery）</strong>，
+            海拔 3860 米。寺院建於 1916 年，是喜馬拉雅山區最著名的藏傳佛教寺院之一。
+            從寺院可以清楚看到聖母峰、洛子峰（Lhotse）的壯麗景色。
+        </p>
+
+        <div class="highlight">
+            💡 按 F12 → Elements，點選任何元素，右側「Styles」面板會顯示套用了哪些 CSS 規則！
+            試試點選標題、段落，觀察 color、font-size、margin 等屬性。
+        </div>
+
+        <!-- ===== 1. CSS 顏色系統 ===== -->
+        <h2>🎨 1. CSS 顏色的四種寫法</h2>
+
+        <div class="color-demo">
+            <div class="color-box" id="color-name">顏色名稱<br>mediumseagreen</div>
+            <div class="color-box" id="color-hex">十六進制<br>#e34c26</div>
+            <div class="color-box" id="color-rgb">RGB<br>rgb(38,77,228)</div>
+            <div class="color-box" id="color-rgba">RGBA（透明度）<br>rgba(232,168,56,0.8)</div>
+            <div class="color-box" id="color-hsl">HSL（色相/飽和/亮度）<br>hsl(125,38%,27%)</div>
+            <div class="color-box" id="color-hsla">HSLA<br>hsla(0,100%,50%,0.6)</div>
+        </div>
+
+        <!-- ===== 2. CSS 邊框 ===== -->
+        <h2>🔲 2. 邊框樣式（Border Styles）</h2>
+
+        <h3>邊框線條類型</h3>
+        <div class="border-demo">
+            <div class="border-box b-solid">solid（實線）</div>
+            <div class="border-box b-dashed">dashed（虛線）</div>
+            <div class="border-box b-dotted">dotted（點線）</div>
+            <div class="border-box b-double">double（雙線）</div>
+            <div class="border-box b-groove">groove（立體溝槽）</div>
+        </div>
+
+        <h3>border-radius（圓角）</h3>
+        <div class="border-demo">
+            <div class="border-box br-small">border-radius: 4px</div>
+            <div class="border-box br-medium">border-radius: 16px</div>
+            <div class="border-box br-circle">50%</div>
+            <div class="border-box br-pill">100px（藥丸形）</div>
+        </div>
+
+        <!-- ===== 3. 盒模型 ===== -->
+        <h2>📦 3. CSS 盒模型（Box Model）</h2>
+        <p>每個 HTML 元素都是一個「盒子」，由四個層次組成：</p>
+        <pre style="background:#eee; padding:16px; border-radius:4px;">
+ ┌─────────────────────────────────┐
+ │  margin（外邊距，橙色虛線框外）  │
+ │  ┌────────────────────────────┐ │
+ │  │  border（邊框，綠色）       │ │
+ │  │  ┌─────────────────────┐  │ │
+ │  │  │  padding（內邊距）   │  │ │
+ │  │  │  ┌───────────────┐  │  │ │
+ │  │  │  │  content 內容  │  │  │ │
+ │  │  │  └───────────────┘  │  │ │
+ │  │  └─────────────────────┘  │ │
+ │  └────────────────────────────┘ │
+ └─────────────────────────────────┘</pre>
+
+        <div class="box-model-demo">
+            <p>📦 這是一個示範盒模型的元素</p>
+            <p>margin: 30px | border: 8px solid | padding: 24px</p>
+            <p>按 F12 → 選此元素 → 右下角「Box Model」可視覺化查看！</p>
+        </div>
+
+        <!-- ===== 4. 字型與文字 ===== -->
+        <h2>🔤 4. 字型與文字樣式</h2>
+
+        <p class="font-demo-serif">Serif 字型（Georgia）：「登高山者，必先磨刀。」</p>
+        <p class="font-demo-sans">Sans-Serif 字型（Arial）：「登高山者，必先磨刀。」</p>
+        <p class="font-demo-mono">Monospace 字型（Courier New）：const altitude = 5364;</p>
+        <p class="font-weight-demo">font-weight: bold — 粗體文字示範</p>
+        <p class="font-style-demo">font-style: italic — 斜體文字示範</p>
+        <p class="font-transform">text-transform: uppercase + letter-spacing: 3px</p>
+        <p class="text-decoration">text-decoration: underline wavy red — 波浪底線</p>
+
+        <!-- ===== 5. 行內樣式（Inline Styles）===== -->
+        <h2>✍️ 5. 行內樣式（Inline CSS）</h2>
+        <p>行內樣式直接寫在 HTML 標籤的 <code>style</code> 屬性上：</p>
+
+        <p style="color: #e34c26; font-size: 1.2rem; font-weight: bold;">
+            這段文字使用行內樣式：color: #e34c26; font-size: 1.2rem
+        </p>
+
+        <p style="background-color: #264de4; color: white; padding: 12px; border-radius: 6px;">
+            行內樣式的優先級最高，但不建議大量使用（難以維護）。
+        </p>
+
+        <!-- ===== 6. 背景 ===== -->
+        <h2>🖼️ 6. 背景樣式（Background）</h2>
+
+        <div class="bg-gradient">
+            🏔️ linear-gradient：線性漸層（左上深綠 → 右下淺綠）<br>
+            background: linear-gradient(135deg, #2c5f2e, #97bc62);
+        </div>
+
+        <div class="bg-radial">
+            🌄 radial-gradient：放射形漸層（中心橙 → 邊緣紅）<br>
+            background: radial-gradient(circle, #e8a838, #c0392b);
+        </div>
+
+        <!-- ===== 7. CSS 尺寸單位 ===== -->
+        <h2>📏 7. CSS 常用尺寸單位</h2>
+        <div class="units-demo">
+            <div style="width: 200px;">width: 200px（固定像素）</div>
+            <div style="width: 50%;">width: 50%（相對父元素寬度）</div>
+            <div style="width: 20rem;">width: 20rem（相對根字型大小，20×16=320px）</div>
+            <div style="width: 30vw;">width: 30vw（相對視窗寬度的 30%）</div>
+        </div>
+
+        <!-- ===== 8. CSS 優先級（Specificity）===== -->
+        <h2>⚖️ 8. CSS 優先級（Specificity）</h2>
+        <p>當多個 CSS 規則針對同一元素時，優先級決定哪個規則生效：</p>
+        <ol>
+            <li><strong>!important</strong>（最高，避免濫用）</li>
+            <li><strong>行內樣式</strong>（style="..."）</li>
+            <li><strong>ID 選擇器</strong>（#id）</li>
+            <li><strong>Class / 屬性 / 偽類選擇器</strong>（.class, [attr], :hover）</li>
+            <li><strong>元素 / 偽元素選擇器</strong>（p, h1, ::before）</li>
+        </ol>
+
+        <!-- 學習總結 -->
+        <h2>📚 本頁學習要點總結</h2>
+        <ol>
+            <li><code>&lt;style&gt;</code>：在 HTML 內寫 CSS（內部樣式表）</li>
+            <li>三種 CSS 方式：外部（link）、內部（style）、行內（style=""）</li>
+            <li>CSS 語法：<code>選擇器 { 屬性: 值; }</code></li>
+            <li>元素、class（.）、ID（#）選擇器</li>
+            <li><code>color background-color font-family font-size</code></li>
+            <li>盒模型：<code>margin padding border</code></li>
+            <li><code>border-radius</code>：圓角</li>
+            <li><code>text-shadow box-shadow</code>：陰影效果</li>
+            <li>顏色：名稱、hex、rgb(a)、hsl(a)</li>
+            <li>尺寸單位：px、%、rem、em、vw、vh</li>
+            <li>CSS 優先級（Specificity）</li>
+        </ol>
+
+    </div>
+
+    <!-- 頁腳 -->
+    <div class="page-footer">
+        <p>← <a href="html-advanced.html">上一頁：高階 HTML</a> | <a href="index.html">返回主頁</a> | <a href="html-css-intermediate.html">下一頁：進階 CSS</a> →</p>
+        <p>&copy; 2024 吳Sir的尼泊爾遠足遊記 — 香港中學資訊科技科教學用途</p>
+    </div>
+
+</body>
+</html>

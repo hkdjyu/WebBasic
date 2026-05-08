@@ -1,17 +1,182 @@
 <!DOCTYPE html>
+<!-- 這是 HTML 文件的根元素，lang="zh-Hant" 表示繁體中文 -->
 <html lang="zh-Hant">
 <head>
+    <!-- meta charset 告訴瀏覽器使用 UTF-8 編碼（支援中文） -->
     <meta charset="UTF-8">
-    <title>HTML 基礎 - WebBasic</title>
+    <!-- viewport 設定讓網頁在手機上也能正常顯示（響應式設計） -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- description 是 SEO 用的網頁描述 -->
+    <meta name="description" content="吳Sir的尼泊爾遠足遊記 — 香港中學網頁開發教學示範網站">
+    <meta name="author" content="吳Sir">
+    <title>🏔️ 吳Sir的尼泊爾遠足遊記 — 主頁</title>
+    <!-- 連結外部 CSS 樣式表 -->
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>歡迎來到網頁開發課</h1>
-    <p>這是第一頁，只使用了 <strong>HTML</strong>。它看起來很樸素，只有黑白文字。</p>
-    <nav>
-        <ul>
-            <li><a href="css-demo.html">前往 HTML + CSS 頁面</a></li>
-            <li><a href="js-demo.html">前往 HTML + CSS + JS 頁面</a></li>
-        </ul>
-    </nav>
+
+    <!-- ========== 網站標題區 (Header) ========== -->
+    <header class="site-header">
+        <div class="header-content">
+            <h1>🏔️ 吳Sir的尼泊爾遠足遊記</h1>
+            <p class="subtitle">跟著吳Sir登上喜馬拉雅山，同時學習 HTML、CSS 和 JavaScript！</p>
+        </div>
+    </header>
+
+    <!-- ========== 主要內容區 (Main) ========== -->
+    <main class="container">
+
+        <!-- 介紹段落 -->
+        <section class="intro">
+            <h2>📖 歡迎來到吳Sir的網頁開發課程</h2>
+            <p>
+                吳Sir是一位香港中學資訊科技老師，2024年他完成了人生夢想——遠足至<strong>聖母峰基地營（Everest Base Camp）</strong>！
+                這個網站以他的尼泊爾之旅為故事主線，帶你一步一步學習網頁開發的知識。
+            </p>
+            <p>
+                💡 小提示：按 <kbd>F12</kbd> 開啟瀏覽器的<strong>開發者工具</strong>，可以在「Elements」分頁看到網頁的 HTML 結構，
+                在「Styles」分頁看到 CSS 樣式，非常值得探索！
+            </p>
+        </section>
+
+        <!-- ===== 課程導航卡片 ===== -->
+        <section class="courses">
+            <h2>📚 選擇你的學習階段</h2>
+
+            <!-- HTML 系列 -->
+            <div class="level-section">
+                <h3>🌱 第一章：HTML 結構篇（只有 HTML）</h3>
+                <div class="card-grid">
+                    <a href="html-basic.html" class="card card-html">
+                        <span class="card-icon">📄</span>
+                        <h4>基礎 HTML</h4>
+                        <p>標題、段落、圖片、超連結、列表——網頁的骨架</p>
+                        <span class="badge badge-beginner">初級</span>
+                    </a>
+                    <a href="html-intermediate.html" class="card card-html">
+                        <span class="card-icon">📋</span>
+                        <h4>進階 HTML</h4>
+                        <p>表格、表單、語義化標籤——讓結構更清晰</p>
+                        <span class="badge badge-intermediate">中級</span>
+                    </a>
+                    <a href="html-advanced.html" class="card card-html">
+                        <span class="card-icon">🔧</span>
+                        <h4>高階 HTML</h4>
+                        <p>HTML5 多媒體、無障礙設計、SEO 標籤</p>
+                        <span class="badge badge-advanced">高級</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- HTML + CSS 系列 -->
+            <div class="level-section">
+                <h3>🎨 第二章：CSS 美化篇（HTML + CSS）</h3>
+                <div class="card-grid">
+                    <a href="html-css-basic.html" class="card card-css">
+                        <span class="card-icon">🖌️</span>
+                        <h4>基礎 HTML + CSS</h4>
+                        <p>顏色、字型、邊距、盒模型——為網頁上色</p>
+                        <span class="badge badge-beginner">初級</span>
+                    </a>
+                    <a href="html-css-intermediate.html" class="card card-css">
+                        <span class="card-icon">📐</span>
+                        <h4>進階 HTML + CSS</h4>
+                        <p>Flexbox、Grid 排版、過渡效果——佈局大師</p>
+                        <span class="badge badge-intermediate">中級</span>
+                    </a>
+                    <a href="html-css-advanced.html" class="card card-css">
+                        <span class="card-icon">✨</span>
+                        <h4>高階 HTML + CSS</h4>
+                        <p>CSS 動畫、響應式設計、CSS 變數——動感網頁</p>
+                        <span class="badge badge-advanced">高級</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- HTML + CSS + JS 系列 -->
+            <div class="level-section">
+                <h3>⚡ 第三章：JavaScript 互動篇（HTML + CSS + JS）</h3>
+                <div class="card-grid">
+                    <a href="html-css-js-basic.html" class="card card-js">
+                        <span class="card-icon">🔘</span>
+                        <h4>基礎 HTML + CSS + JS</h4>
+                        <p>DOM 操作、事件監聽、基本函數——讓網頁動起來</p>
+                        <span class="badge badge-beginner">初級</span>
+                    </a>
+                    <a href="html-css-js-intermediate.html" class="card card-js">
+                        <span class="card-icon">📦</span>
+                        <h4>進階 HTML + CSS + JS</h4>
+                        <p>陣列、物件、本地儲存——處理資料</p>
+                        <span class="badge badge-intermediate">中級</span>
+                    </a>
+                    <a href="html-css-js-advanced.html" class="card card-js">
+                        <span class="card-icon">🚀</span>
+                        <h4>高階 HTML + CSS + JS</h4>
+                        <p>ES6+、非同步程式、Canvas 繪圖——進階技巧</p>
+                        <span class="badge badge-advanced">高級</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== 行程時間軸 ===== -->
+        <section class="journey">
+            <h2>🗺️ 吳Sir 的 17 天尼泊爾行程</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <span class="day">第 1 天</span>
+                    <span class="location">🛫 香港 → 加德滿都 (Kathmandu)</span>
+                    <span class="desc">抵達尼泊爾首都，辦理登山許可證</span>
+                </div>
+                <div class="timeline-item">
+                    <span class="day">第 2 天</span>
+                    <span class="location">✈️ 盧卡拉 (Lukla) 2860m</span>
+                    <span class="desc">搭乘小型飛機降落世界最危險機場，展開徒步之旅</span>
+                </div>
+                <div class="timeline-item">
+                    <span class="day">第 3 天</span>
+                    <span class="location">🏘️ 法克定 (Phakding) 2610m</span>
+                    <span class="desc">沿杜德科西河谷徒步，欣賞吊橋風光</span>
+                </div>
+                <div class="timeline-item">
+                    <span class="day">第 4-5 天</span>
+                    <span class="location">🏪 南崎巴扎 (Namche Bazaar) 3440m</span>
+                    <span class="desc">雪巴人的商業重鎮，進行高山適應，首次遠望聖母峰</span>
+                </div>
+                <div class="timeline-item">
+                    <span class="day">第 7 天</span>
+                    <span class="location">⛩️ 騰波齊 (Tengboche) 3860m</span>
+                    <span class="desc">著名喇嘛寺，聖母峰、洛子峰壯觀全景盡收眼底</span>
+                </div>
+                <div class="timeline-item">
+                    <span class="day">第 9 天</span>
+                    <span class="location">🏔️ 丁博齊 (Dingboche) 4410m</span>
+                    <span class="desc">高山適應訓練，體驗缺氧挑戰</span>
+                </div>
+                <div class="timeline-item">
+                    <span class="day">第 12 天</span>
+                    <span class="location">🎯 聖母峰基地營 (EBC) 5364m</span>
+                    <span class="desc">🎉 達成目標！站在世界之巔的腳下，淚流滿面！</span>
+                </div>
+                <div class="timeline-item">
+                    <span class="day">第 17 天</span>
+                    <span class="location">🛬 返回香港</span>
+                    <span class="desc">帶著滿滿的回憶和故事，平安回家</span>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ========== 頁腳 (Footer) ========== -->
+    <footer class="site-footer">
+        <p>🏔️ 吳Sir的尼泊爾遠足遊記 &copy; 2024</p>
+        <p>香港中學資訊科技科 — 網頁開發教學示範網站</p>
+        <p>按 <kbd>F12</kbd> 查看原始碼，動手探索每個元素！</p>
+    </footer>
+
+    <!-- 連結外部 JavaScript 檔案 -->
+    <script src="script.js"></script>
+
 </body>
 </html>
