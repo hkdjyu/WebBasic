@@ -35,4 +35,51 @@ document.addEventListener('DOMContentLoaded', function () {
     const tripDays  = (tripEnd - tripStart) / (1000 * 60 * 60 * 24); // 毫秒換算天數
     console.log(`✈️ 吳Sir的尼泊爾之旅共 ${tripDays} 天`);
 
+    // --- 5. Landing Page 數字遞增動畫 ---
+    const metricNumbers = document.querySelectorAll('.metric-value');
+
+    metricNumbers.forEach(function (node) {
+        const target = Number(node.getAttribute('data-count'));
+        if (Number.isNaN(target)) return;
+
+        const duration = 1200;
+        const startTime = performance.now();
+
+        function animateCount(now) {
+            const progress = Math.min((now - startTime) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3); // easeOutCubic
+            const current = Math.floor(target * eased);
+            node.textContent = current.toLocaleString('zh-Hant-HK');
+
+            if (progress < 1) {
+                requestAnimationFrame(animateCount);
+            }
+        }
+
+        requestAnimationFrame(animateCount);
+    });
+
+    // --- 6. 區塊淡入效果（IntersectionObserver） ---
+    const revealSections = document.querySelectorAll('.reveal-on-scroll');
+
+    if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(function (entries, obs) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    obs.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.12 });
+
+        revealSections.forEach(function (section) {
+            observer.observe(section);
+        });
+    } else {
+        // 舊瀏覽器後備方案：直接顯示
+        revealSections.forEach(function (section) {
+            section.classList.add('visible');
+        });
+    }
+
 });

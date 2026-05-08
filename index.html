@@ -1,51 +1,68 @@
 <!DOCTYPE html>
-<!-- 這是 HTML 文件的根元素，lang="zh-Hant" 表示繁體中文 -->
 <html lang="zh-Hant">
 <head>
-    <!-- meta charset 告訴瀏覽器使用 UTF-8 編碼（支援中文） -->
     <meta charset="UTF-8">
-    <!-- viewport 設定讓網頁在手機上也能正常顯示（響應式設計） -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- description 是 SEO 用的網頁描述 -->
     <meta name="description" content="吳Sir的尼泊爾遠足遊記 — 香港中學網頁開發教學示範網站">
     <meta name="author" content="吳Sir">
+    <meta name="theme-color" content="#1a1a2e">
     <title>🏔️ 吳Sir的尼泊爾遠足遊記 — 主頁</title>
-    <!-- 連結外部 CSS 樣式表 -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- ========== 網站標題區 (Header) ========== -->
     <header class="site-header">
-        <div class="header-content">
-            <h1>🏔️ 吳Sir的尼泊爾遠足遊記</h1>
-            <p class="subtitle">跟著吳Sir登上喜馬拉雅山，同時學習 HTML、CSS 和 JavaScript！</p>
+        <div class="container hero-layout">
+            <div class="hero-copy reveal-on-scroll">
+                <p class="eyebrow">香港中學資訊科技科教學網站</p>
+                <h1>吳Sir的尼泊爾遠足遊記</h1>
+                <p class="subtitle">把 17 天遠足冒險，變成一套完整的網頁開發課程。從山腳到基地營，從 HTML 到 JavaScript 高階技巧。</p>
+                <div class="hero-actions">
+                    <a href="html-basic.html" class="btn btn-primary">立即開始學習</a>
+                    <a href="#learning-path" class="btn btn-secondary">查看課程地圖</a>
+                </div>
+                <div class="hero-metrics">
+                    <article class="metric-card">
+                        <p class="metric-value" data-count="9">0</p>
+                        <p class="metric-label">主題課程頁</p>
+                    </article>
+                    <article class="metric-card">
+                        <p class="metric-value" data-count="17">0</p>
+                        <p class="metric-label">尼泊爾行程日數</p>
+                    </article>
+                    <article class="metric-card">
+                        <p class="metric-value" data-count="5364">0</p>
+                        <p class="metric-label">最高海拔（米）</p>
+                    </article>
+                </div>
+            </div>
+
+            <aside class="hero-panel reveal-on-scroll" aria-label="旅程重點卡片">
+                <h2>旅程亮點</h2>
+                <ul>
+                    <li>第 2 天：飛抵盧卡拉，踏上高山路線</li>
+                    <li>第 4-5 天：南崎巴扎高山適應訓練</li>
+                    <li>第 12 天：抵達聖母峰基地營 5364m</li>
+                    <li>第 17 天：完成整段學習與旅程</li>
+                </ul>
+                <a href="#journey" class="text-link">查看完整 17 天時間軸</a>
+            </aside>
         </div>
     </header>
 
-    <!-- ========== 主要內容區 (Main) ========== -->
     <main class="container">
 
-        <!-- 介紹段落 -->
-        <section class="intro">
-            <h2>📖 歡迎來到吳Sir的網頁開發課程</h2>
-            <p>
-                吳Sir是一位香港中學資訊科技老師，2024年他完成了人生夢想——遠足至<strong>聖母峰基地營（Everest Base Camp）</strong>！
-                這個網站以他的尼泊爾之旅為故事主線，帶你一步一步學習網頁開發的知識。
-            </p>
-            <p>
-                💡 小提示：按 <kbd>F12</kbd> 開啟瀏覽器的<strong>開發者工具</strong>，可以在「Elements」分頁看到網頁的 HTML 結構，
-                在「Styles」分頁看到 CSS 樣式，非常值得探索！
-            </p>
+        <section class="intro reveal-on-scroll">
+            <h2>📖 為什麼用「遠足遊記」學寫網頁？</h2>
+            <p>每一個技術概念都對應旅程中的真實場景：HTML 負責結構，CSS 負責視覺，JavaScript 負責互動。學生可以一邊看故事，一邊按 F12 直接拆解程式。</p>
+            <p>建議學習方式：先完成「基礎」，再進入「進階」，最後挑戰「高階」。每頁都附有大量註解，適合課堂示範和自學練習。</p>
         </section>
 
-        <!-- ===== 課程導航卡片 ===== -->
-        <section class="courses">
-            <h2>📚 選擇你的學習階段</h2>
+        <section class="courses reveal-on-scroll" id="learning-path">
+            <h2>🧭 課程地圖（Landing Page 導航）</h2>
 
-            <!-- HTML 系列 -->
             <div class="level-section">
-                <h3>🌱 第一章：HTML 結構篇（只有 HTML）</h3>
+                <h3>🌱 第一章：HTML 結構篇</h3>
                 <div class="card-grid">
                     <a href="html-basic.html" class="card card-html">
                         <span class="card-icon">📄</span>
@@ -68,7 +85,6 @@
                 </div>
             </div>
 
-            <!-- HTML + CSS 系列 -->
             <div class="level-section">
                 <h3>🎨 第二章：CSS 美化篇（HTML + CSS）</h3>
                 <div class="card-grid">
@@ -93,7 +109,6 @@
                 </div>
             </div>
 
-            <!-- HTML + CSS + JS 系列 -->
             <div class="level-section">
                 <h3>⚡ 第三章：JavaScript 互動篇（HTML + CSS + JS）</h3>
                 <div class="card-grid">
@@ -119,8 +134,18 @@
             </div>
         </section>
 
-        <!-- ===== 行程時間軸 ===== -->
-        <section class="journey">
+        <section class="shortcut-grid reveal-on-scroll" aria-label="快速入口">
+            <a href="css-demo.html" class="shortcut-card">
+                <h3>CSS 快速入口</h3>
+                <p>直接進入 CSS 三階段導覽頁，快速重溫排版與動畫重點。</p>
+            </a>
+            <a href="js-demo.html" class="shortcut-card">
+                <h3>JavaScript 快速入口</h3>
+                <p>從 DOM 基礎到 async/await，完整查看 JS 路線圖。</p>
+            </a>
+        </section>
+
+        <section class="journey reveal-on-scroll" id="journey">
             <h2>🗺️ 吳Sir 的 17 天尼泊爾行程</h2>
             <div class="timeline">
                 <div class="timeline-item">
@@ -168,15 +193,12 @@
 
     </main>
 
-    <!-- ========== 頁腳 (Footer) ========== -->
     <footer class="site-footer">
         <p>🏔️ 吳Sir的尼泊爾遠足遊記 &copy; 2024</p>
         <p>香港中學資訊科技科 — 網頁開發教學示範網站</p>
         <p>按 <kbd>F12</kbd> 查看原始碼，動手探索每個元素！</p>
     </footer>
 
-    <!-- 連結外部 JavaScript 檔案 -->
     <script src="script.js"></script>
-
 </body>
 </html>
